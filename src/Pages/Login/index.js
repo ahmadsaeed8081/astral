@@ -38,7 +38,7 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
-  Sign_out();
+  Sign_out1();
   set_refId(params.get("ref"));
 })
 
@@ -49,7 +49,7 @@ async function Sign_out() {
      },
      chainId: 56,
    });
-   
+
    console.log(provider);
    try{
     await provider.disconnect();
@@ -57,6 +57,27 @@ async function Sign_out() {
    }
    catch{
     window.location.reload("/");
+
+   }
+
+
+ }
+
+
+ async function Sign_out1() {
+  const provider = new WalletConnectProvider({
+     rpc: {
+       56:"https://bsc-dataseed1.binance.org/"
+     },
+     chainId: 56,
+   });
+   
+   console.log(provider);
+   try{
+    await provider.disconnect();
+   }
+   catch{
+  
 
    }
 
