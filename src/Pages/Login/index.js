@@ -66,11 +66,12 @@ async function Sign_out() {
 
 
 window.onbeforeunload = function (e) {
-  // e.preventDefault();
-  // e.returnValue = '';
-  // return 'Your custom message here';
-  console.log("object reload");
+  e.preventDefault();
+  e.returnValue = '';
+    console.log("object reload");
     Sign_out1();
+  return 'Your custom message here';
+
 
 };
 
@@ -82,12 +83,14 @@ window.onbeforeunload = function (e) {
      chainId: 56,
    });
    
-   console.log(provider);
+   console.log("hello its signout provider "+ provider);
    try{
     await provider.disconnect();
+    console.log("hello its signout provider 1"+ provider);
+
    }
    catch{
-  
+  alert("eror")
 
    }
 
