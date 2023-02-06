@@ -194,7 +194,7 @@ async function Sign_out() {
         }
         else if(option==2)
         {
-          let address=await contract.methods.idtoAddress(viewAddress.toString()).call();
+          let address=await contract.methods.idtoAddress(viewAddress.toString().toLowerCase()).call();
           console.log("hlo its view add "+address);
           // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
           if(address!="0x0000000000000000000000000000000000000000")
@@ -358,7 +358,7 @@ async function Sign_out() {
         }
         else if(option==2)
         {
-          let address= await contract.methods.idtoAddress(viewAddress.toString()).call();
+          let address= await contract.methods.idtoAddress(viewAddress.toString().toLowerCase()).call();
 
           // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
           if(address!="0x0000000000000000000000000000000000000000")
@@ -675,7 +675,7 @@ async function Sign_out() {
       }
       if(val==2)
       {
-        let address=await contract.methods.idtoAddress(viewAddress.toString()).call();
+        let address=await contract.methods.idtoAddress(viewAddress.toString().toLowerCase()).call();
 
           // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
           if(address!="0x0000000000000000000000000000000000000000")

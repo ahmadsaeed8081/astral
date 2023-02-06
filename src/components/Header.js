@@ -179,7 +179,7 @@ const Header = (props) => {
       
       const contract = new web3.eth.Contract(cont_abi, cont_address);
 
-      let address=await contract.methods.idtoAddress(_add.toString()).call();
+      let address=await contract.methods.idtoAddress(_add.toString().toLowerCase()).call();
 
       if(address!="0x0000000000000000000000000000000000000000")
       {
