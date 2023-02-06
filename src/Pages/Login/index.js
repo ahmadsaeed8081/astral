@@ -154,7 +154,7 @@ async function Sign_out() {
           const total_inv = await contract.methods.get_total_inv().call();
 
           let levelMatrix_fee = 20;
-          const newId = "matref0"+total_inv+1
+          const newId = "crdmtx0"+total_inv+1
            
           console.log("this is ref " + _ref);
           if (_ref == null) {
@@ -319,7 +319,7 @@ async function Sign_out() {
           const total_inv = await contract.methods.get_total_inv().call();
 
           let levelMatrix_fee = 20;
-          const newId = "crdmtxf0"+total_inv+1
+          const newId = "crdmtx0"+total_inv+1
            
           console.log("this is ref " + _ref);
           if (_ref == null) {
@@ -634,7 +634,7 @@ async function Sign_out() {
           const total_inv = await contract.methods.get_total_inv().call();
 
           let levelMatrix_fee = 20;
-          const newId = "crdmtxf0"+total_inv+1
+          const newId = "crdmtx0"+total_inv+1
            
           console.log("this is ref " + _ref);
           if (_ref == null) {
