@@ -38,6 +38,7 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
+  Sign_out();
   set_refId(params.get("ref"));
 })
 
