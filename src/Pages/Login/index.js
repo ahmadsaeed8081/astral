@@ -144,8 +144,11 @@ async function Sign_out() {
           }
           else if(params.get("ref")!=null){
 
-            let address=contract.methods.idtoAddress(params.get("ref")).call();
+            console.log("hello this it");
+            let address=await contract.methods.idtoAddress(params.get("ref")).call();
               set_ref(address)
+
+              console.log("this is is given ref address: "+address);
               _ref = address.toString();
             
 
@@ -309,10 +312,13 @@ async function Sign_out() {
             navigate("/home");
             return;
           }
-          else if(params.get("ref")!=null){
-
-            let address=contract.methods.idtoAddress(params.get("ref")).call();
+          else if(params.get("ref")!=null)
+          {
+              console.log("hello this it");
+            let address=await contract.methods.idtoAddress(params.get("ref")).call();
               set_ref(address)
+
+              console.log("this is is given ref address: "+address);
               _ref = address.toString();
             
 
