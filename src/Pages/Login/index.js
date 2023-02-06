@@ -65,15 +65,7 @@ async function Sign_out() {
 
 
 
-window.onbeforeunload = function (e) {
-  e.preventDefault();
-  e.returnValue = '';
-    console.log("object reload");
-    Sign_out1();
-  return 'Your custom message here';
-
-
-};
+// s
 
  async function Sign_out1() {
   const provider = new WalletConnectProvider({

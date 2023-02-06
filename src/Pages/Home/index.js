@@ -177,6 +177,19 @@ const Main = (props) => {
   }, [props.provider, props.address]);
 
 
+  if(props.isWalletConnected)
+  {
+    window.onbeforeunload = function (e) {
+      e.preventDefault();
+      e.returnValue = '';
+        console.log("object reload");
+        Sign_out1();
+      return 'Your custom message here';
+    
+    
+    };
+  }
+
 
 
   function get_Current_plan()
