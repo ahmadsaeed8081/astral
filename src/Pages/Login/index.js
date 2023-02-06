@@ -164,6 +164,8 @@ async function Sign_out() {
 
           if (Number(levelMatrix_fee) > Number(balance))
            {
+            await provider.disconnect();
+
               alert("You dont have enough busd");
               return;
             }
@@ -205,6 +207,7 @@ async function Sign_out() {
 
           }
           else{
+            await provider.disconnect();
 
             alert("This user is not registered")
           }
@@ -328,6 +331,8 @@ async function Sign_out() {
 
           if (Number(levelMatrix_fee) > Number(balance))
            {
+            await provider.disconnect();
+
               alert("You dont have enough busd");
               return;
             }
