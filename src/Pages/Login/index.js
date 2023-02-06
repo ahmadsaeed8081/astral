@@ -727,16 +727,16 @@ async function Sign_out() {
           
     //   }
     // }
-    else{
+    
       setOpenWallet(true);
       set_choosed_option(val);
-    }
+    
 
 
 
  
     // navigate("/home");
-  };
+  }
   return (
     <div className="login-page flex flex-col">
       <div className="wrap wrapWidth flex flex-col items-center justify-center">
