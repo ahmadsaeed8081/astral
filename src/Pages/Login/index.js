@@ -49,6 +49,7 @@ async function Sign_out() {
      },
      chainId: 56,
    });
+   
    console.log(provider);
    try{
     await provider.disconnect();
