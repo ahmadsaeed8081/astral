@@ -1062,6 +1062,7 @@ const Main = (props) => {
                 <div className="name">
                   {uplinerId}
                 </div>
+                
                 <CopyToClipboard text={uplinerId}>
                   <div className="icon flex items-center justify-center cursor-pointer">
                     <div className="btn button">Copy</div>
