@@ -92,7 +92,6 @@ const Header = (props) => {
       //trust 1Wallet
       provider = new WalletConnectProvider({
         rpc: {
-          // 137: "https://polygon-mainnet.g.alchemy.com/v2/eRdxPlEv3QpMS-1nPDFkjtO-qDmurAoF",
           56:"https://bsc-dataseed1.binance.org/"
         },
         chainId: 56,

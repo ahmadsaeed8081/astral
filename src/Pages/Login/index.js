@@ -121,7 +121,6 @@ async function Sign_out() {
             navigate("/home");
           }
           else{
-            set_isWalletConnected(true)
             alert("You are not a register member")
             return
           }
@@ -206,7 +205,6 @@ async function Sign_out() {
 
           }
           else{
-            set_isWalletConnected(true);
 
             alert("This user is not registered")
           }
@@ -285,9 +283,9 @@ async function Sign_out() {
             navigate("/home");
           }
           else{
-            set_isWalletConnected(true);
+            await provider.disconnect();
 
-            alert("You are not a register member1")
+            alert("You are not a register member")
             return
           }
 
@@ -351,7 +349,7 @@ async function Sign_out() {
               navigate("/home");
             }
           } catch (error) {
-
+            await provider.disconnect();
             console.error(error);
           }
 
@@ -367,9 +365,13 @@ async function Sign_out() {
             dispatch(setUserToken(true));
     
             navigate("/home");
+            await provider.disconnect();
+
 
           }
           else{
+            await provider.disconnect();
+
             alert("This user is not registered")
           }
           
@@ -378,7 +380,6 @@ async function Sign_out() {
 
           
         }
-        set_isWalletConnected(true);
 
         // let matic = await web3.eth.getBalance(accounts[0]);
         // balance = web3.utils.fromWei(balance, "ether");
@@ -588,110 +589,111 @@ async function Sign_out() {
         return;
       }
     }
-    if(isWalletConnected)
-    {
-      if(val==0)
-      {
-        const fee_paid = await contract.methods.is_paid(address).call();
+    // if(isWalletConnected)
+    // {
+    //   if(val==0)
+    //   {
+    //     const fee_paid = await contract.methods.is_paid(address).call();
 
 
-        if(fee_paid)
-        { 
-          props.set_user(address, web3, provider, balance, matic,false);            
-          dispatch(setUserToken(true));
+    //     if(fee_paid)
+    //     { 
+    //       props.set_user(address, web3, provider, balance, matic,false);            
+    //       dispatch(setUserToken(true));
 
-          navigate("/home");
-        }
-        else{
-          alert("You are not a register member")
-          return
-        }     
-      }
-      if(val==1)
-      {
-        {
-          let _ref;
-          const fee_paid = await contract.methods.is_paid(address).call();
-          console.log("13");
+    //       navigate("/home");
+    //     }
+    //     else{
+    //       alert("You are not a register member")
+    //       return
+    //     }     
+    //   }
+    //   if(val==1)
+    //   {
+    //     {
+    //       let _ref;
+    //       const fee_paid = await contract.methods.is_paid(address).call();
+    //       console.log("13");
 
 
-          if(fee_paid)
-          { 
-            props.set_user(address, web3, provider, balance, matic,false);            
-            dispatch(setUserToken(true));
+    //       if(fee_paid)
+    //       { 
+    //         props.set_user(address, web3, provider, balance, matic,false);            
+    //         dispatch(setUserToken(true));
 
-            navigate("/home");
-            return;
-          }
-          else if(params.get("ref")!=null){
+    //         navigate("/home");
+    //         return;
+    //       }
+    //       else if(params.get("ref")!=null){
 
-            let address=contract.methods.idtoAddress(params.get("ref")).call();
-              set_ref(address)
-              _ref = address;
+    //         let address=contract.methods.idtoAddress(params.get("ref")).call();
+    //           set_ref(address)
+    //           _ref = address;
             
 
-          }
-          const total_inv = await contract.methods.get_total_inv().call();
+    //       }
+    //       const total_inv = await contract.methods.get_total_inv().call();
 
-          let levelMatrix_fee = 20;
-          const newId = "crdmtx0"+total_inv+1
+    //       let levelMatrix_fee = 20;
+    //       const newId = "crdmtx0"+total_inv+1
            
-          console.log("this is ref " + _ref);
-          if (_ref == null) {
-            _ref = "0x0000000000000000000000000000000000000000";
-          }
-          try 
-          {
+    //       console.log("this is ref " + _ref);
+    //       if (_ref == null) {
+    //         _ref = "0x0000000000000000000000000000000000000000";
+    //       }
+    //       try 
+    //       {
 
-          if (Number(levelMatrix_fee) > Number(balance))
-           {
-              alert("You dont have enough busd");
-              return;
-            }
+    //       if (Number(levelMatrix_fee) > Number(balance))
+    //        {
+    //           alert("You dont have enough busd");
+    //           return;
+    //         }
 
-            levelMatrix_fee = levelMatrix_fee * 10 ** 18;
-            console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
-            console.log("this is ref1 " + _ref);
+    //         levelMatrix_fee = levelMatrix_fee * 10 ** 18;
+    //         console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
+    //         console.log("this is ref1 " + _ref);
 
-            await contract1.methods
-              .approve(cont_address, levelMatrix_fee.toString())
-              .send({ from: address });
-            const result = await contract.methods
-              .level_matrix(_ref,newId.toString())
-              .send({ from: address });
-            if (result) {
-              props.set_user(address, web3, provider, balance, matic,false);            
-              dispatch(setUserToken(true));
+    //         await contract1.methods
+    //           .approve(cont_address, levelMatrix_fee.toString())
+    //           .send({ from: address });
+    //         const result = await contract.methods
+    //           .level_matrix(_ref,newId.toString())
+    //           .send({ from: address });
+    //         if (result) {
+    //           props.set_user(address, web3, provider, balance, matic,false);            
+    //           dispatch(setUserToken(true));
 
-              navigate("/home");
-            }
-          } catch (error) {
-            // Catch any errors for any of the above operations.
+    //           navigate("/home");
+    //         }
+    //       } catch (error) {
+    //         // Catch any errors for any of the above operations.
 
-            console.error(error);
-          }
+    //         console.error(error);
+    //       }
 
-        }
-      }
-      if(val==2)
-      {
-        let address=await contract.methods.idtoAddress(viewAddress.toString().toLowerCase()).call();
+    //     }
+    //   }
+    //   if(val==2)
+    //   {
+    //     let address=await contract.methods.idtoAddress(viewAddress.toString().toLowerCase()).call();
 
-          // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
-          if(address!="0x0000000000000000000000000000000000000000")
-          {
-            props.set_user(address, web3, provider, balance, matic,true);        
-            dispatch(setUserToken(true));
+    //       // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
+    //       if(address!="0x0000000000000000000000000000000000000000")
+    //       {
+    //         props.set_user(address, web3, provider, balance, matic,true);        
+    //         dispatch(setUserToken(true));
     
-            navigate("/home");
+    //         navigate("/home");
 
-          }
-          else{
-            alert("This user is not registered")
-          }
+    //       }
+    //       else{
+    //         alert("This user is not registered")
+    //       }
           
-      }
-    }else{
+    //   }
+    // }
+    else{
       setOpenWallet(true);
       set_choosed_option(val);
     }
@@ -721,26 +723,14 @@ async function Sign_out() {
             <div className="action flex items-center justify-between">
               <button className="btn button"onClick={(e) => handleLogin(2)}>VIEW</button>
 
-
-              {!isWalletConnected ? (
               <div
                 className="btn button"
                 onClick={(e) => handleLogin(0)}
               >
                 <p>Fetch Account</p>
               </div>
-            ) : (
-              <>
-                <div
-                  className="btn button"
-                  onClick={(e) => {
-                    Sign_out();
-                  }}
-                >
-                  <p>Sign Out</p>
-                </div>
-              </>
-            )}
+
+          
               {/* <button className="btn button" onClick={(e) => handleLogin(0)}>
                 Fetch Account
               </button> */}
