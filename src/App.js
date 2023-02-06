@@ -102,3 +102,26 @@ function App() {
 }
 
 export default App;
+// import React, { useEffect } from 'react';
+
+// const App = () => {
+//   useEffect(() => {
+//     window.addEventListener('beforeunload', handleBeforeUnload);
+//     return () => {
+//       window.removeEventListener('beforeunload', handleBeforeUnload);
+//     };
+//   }, []);
+
+//   const handleBeforeUnload = (event) => {
+//     event.preventDefault();
+//     event.returnValue = 'Are you sure you want to leave?';
+//   };
+
+//   return (
+//     <div>
+//       <h1>Hello World!</h1>
+//     </div>
+//   );
+// };
+
+// export default App;
