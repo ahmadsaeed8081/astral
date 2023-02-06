@@ -19,16 +19,16 @@ import {
 } from "../../../src/components/config";
 
 const Main = (props) => {
-  let plan1_fee = 50;
-  let plan2_fee = 100; // dont forget to change
-  let plan3_fee = 200;
-  let plan4_fee = 400;
-  let plan5_fee = 800; // dont forget to change
-  let plan6_fee = 1600;
-  let plan7_fee = 3200;
-  let plan8_fee = 6400; // dont forget to change
-  let plan9_fee = 12800;
-  let plan10_fee = 25600;
+  let plan1_fee = 25;
+  let plan2_fee = 50;
+  let plan3_fee = 100; // dont forget to change
+  let plan4_fee = 200;
+  let plan5_fee = 400;
+  let plan6_fee = 800; // dont forget to change
+  let plan7_fee = 1600;
+  let plan8_fee = 3200;
+  let plan9_fee = 6400; // dont forget to change
+  let plan10_fee = 12800;
 
   const [activeTab, setActiveTab] = useState("LEVEL");
 
@@ -48,6 +48,8 @@ const Main = (props) => {
   const [bonus, set_bonus] = useState("");
   const [direct_ref, set_direct_ref] = useState("");
   const [globalRef_direct, set_globalRef_direct] = useState([]);
+  const [globalRef_team, set_globalRef_team] = useState([]);
+
   const [globalRef_earning, set_globalRef_earning] = useState([]);
 
   const [globalref_perlevel_earning, set_globalref_perlevel_earning] = useState(
@@ -55,6 +57,9 @@ const Main = (props) => {
   );
   const [globalref_perlevel_count, set_globalref_perlevel_count] = useState([]);
   const [totalglobal_earning, set_totalglobal_earning] = useState([]);
+
+  const [uplinerId, set_uplinerId] = useState("");
+  const [userId, set_userId] = useState("");
 
   const [is_paid, set_paid] = useState(false);
   const [is_gloabl_plan1_paid, set_global_plan1_paid] = useState(false);
@@ -171,6 +176,64 @@ const Main = (props) => {
     console.log("hello " + props.address);
   }, [props.provider, props.address]);
 
+
+
+
+  function get_Current_plan()
+  {
+     var current_plan;
+      if(!is_paid){
+        current_plan="None";
+      }
+      else if(!is_gloabl_plan1_paid)
+      {
+          current_plan="Level Matrix";
+      }
+      else if(!is_gloabl_plan2_paid){
+
+          current_plan=" Global plan 1";
+
+      }
+      else if(!is_gloabl_plan3_paid){
+          current_plan="Global plan 2";
+
+      }
+      else if(!is_gloabl_plan4_paid){
+          current_plan="Global plan 3";
+
+      }
+      else if(!is_gloabl_plan5_paid){
+          current_plan="Global plan 4";
+
+      }
+      else if(!is_gloabl_plan6_paid){
+          current_plan="Global plan 5";
+
+      }
+      else if(!is_gloabl_plan7_paid){
+          current_plan=" Global plan 6";
+
+      }
+      else if(!is_gloabl_plan8_paid){
+          current_plan="Global plan 7";
+
+      }
+      else if(!is_gloabl_plan9_paid){
+          current_plan="Global plan 8";
+
+      }
+      else if(!is_gloabl_plan10_paid){
+          current_plan="Global plan 9";
+      }
+      else{
+          current_plan="Global plan 10";
+      }
+
+      return current_plan;
+  }
+
+
+
   async function getData() {
     if (!props.isWalletConnected) {
       return;
@@ -224,12 +287,18 @@ const Main = (props) => {
         .call();
 
       console.log("its get data");
-      let current_plan = await contract.methods
-        .get_Current_plan()
-        .call({ from: props.address.toString() });
+
+      let user_id = await contract.methods
+        .addresstoId(props.address.toString())
+        .call();
+
+        console.log("its get data1");
+
+
       let level_matrix_earning = await contract.methods
         .levelMatrix_earningOf(props.address)
         .call();
+        console.log("its get data2");
 
       let upliner = await contract.methods.uplinerOf(props.address).call();
 
@@ -259,15 +328,35 @@ const Main = (props) => {
       let globalRef_earning = await contract.methods
         .get_globalRef_earning()
         .call({ from: props.address.toString() });
+        console.log("its get data3");
+
+        let globalRef_team = await contract.methods
+        .get_globalRef_team() 
+        .call({ from: props.address.toString() });
+        console.log("its get data4");
+
       let globalref_perlevel_earning = await contract.methods
         .get_globalref_perlevel_earning()
         .call({ from: props.address.toString() });
+        console.log("its get data5");
+
       let globalref_perlevel_count = await contract.methods
         .get_globalref_perlevel_count()
         .call({ from: props.address.toString() });
-        set_reg_earning(regfee_earning)
+        console.log("its get data6");
+
+
+        let upliner_id = await contract.methods
+        .addresstoId(upliner)
+        .call();
+        console.log("its get data7");
+
+
+      set_reg_earning(regfee_earning)
       set_direct_ref(direct_ref);
       set_globalRef_direct(globalRef_direct);
+      set_globalRef_team(globalRef_team);
+
       set_globalRef_earning(globalRef_earning);
       set_globalref_perlevel_earning(globalref_perlevel_earning);
       set_globalref_perlevel_count(globalref_perlevel_count);
@@ -278,7 +367,6 @@ const Main = (props) => {
       // let upliner = await contract.methods.uplinerOf(props.address).call();
       set_level_earning(level_matrix_earning);
       set_upliner(upliner);
-      set_current_plan(current_plan);
       set_paid(fee_paid);
       set_global_plan1_paid(global1);
       set_global_plan2_paid(global2);
@@ -295,7 +383,8 @@ const Main = (props) => {
       set_global_plan10_paid(global10);
 
       set_levelpaid(level);
-
+      set_userId(user_id)
+      set_uplinerId(upliner_id)
       set_ref(params.get("ref"));
 
       set_fee(fee1);
@@ -347,36 +436,12 @@ const Main = (props) => {
         .data(9, props.address)
         .call({ from: props.address.toString() });
       set_plane10_data(data9);
+      set_current_plan(get_Current_plan());
 
       console.log("object");
 
-      //       let i1=1;
-      //       let i2=1;
-      //       let i3=1;
-      //       // console.log("conversion  "+ 15%4);
-      // let count=1
-      // let temp=data[5];
-      // while(temp!=0)
-      // {
-      //   if(count%4==0)
-      //   {
-      //     i1+=4;
-      //   }
-      //   count++;
-      //   temp--;
 
-      // }
 
-      //       if(data1[5]%4==0)
-      //       {
-      //         i2+=4;
-      //       }
-      //       if(data2[5]%4==0)
-      //       {
-      //         i3+=4;
-      //       }
-
-      // console.log("it is i1 "+i1);
       let r11 = await contract.methods
         .ref_check(0, props.address, 1)
         .call({ from: props.address.toString() });
@@ -850,6 +915,12 @@ const Main = (props) => {
     }
   }
 
+
+
+
+
+
+
   return (
     <>
       {/* set_user={set_user} search_Data={search_Data} */}
@@ -860,18 +931,7 @@ const Main = (props) => {
       <div className="home-page flex flex-col">
         <div className="wrap wrapWidth">
           <div className="info-wrapper">
-            {/* <div className="info-card flex flex-col items-center">
-            <div className="icons flex items-center justify-center relative">
-              <img src="./images/ellips.png" className="ellips" />
-              <img src="./images/icon1.svg" className="icon absolute" />
-            </div>
-            <div className="card-name flex items-center justify-center">
-              <div className="name">Current Matrix</div>
-            </div>
-            <div className="card-action flex items-center justify-center">
-              <div className="btn button">No Matrix</div>
-            </div>
-          </div> */}
+
             <div className="info-card flex flex-col items-center">
               <div className="icons flex items-center justify-center relative">
                 <img src="./images/ellips.png" className="ellips" />
@@ -880,18 +940,6 @@ const Main = (props) => {
               <div className="card-name flex items-center justify-center flex-col">
                 <div className="name">Total Earnings</div>
                 <div className="amount">${total_earning / 10 ** 18}</div>
-              </div>
-            </div>
-            <div className="info-card flex flex-col items-center">
-              <div className="icons flex items-center justify-center relative">
-                <img src="./images/ellips.png" className="ellips" />
-                <img src="./images/icon4.svg" className="icon absolute" />
-              </div>
-              <div className="card-name flex items-center justify-center flex-col">
-                <div className="name">level Matrix Earning</div>
-                <div className="amount">
-                  ${Number(level_earning) / 10 ** 18}
-                </div>
               </div>
             </div>
             <div className="info-card flex flex-col items-center">
@@ -925,17 +973,16 @@ const Main = (props) => {
                 </div>
               </div>
             </div>
-
             <div className="info-card flex flex-col items-center">
               <div className="icons flex items-center justify-center relative">
                 <img src="./images/ellips.png" className="ellips" />
-                <img src="./images/icon1.svg" className="icon absolute" />
+                <img src="./images/icon4.svg" className="icon absolute" />
               </div>
-              <div className="card-name flex items-center justify-center">
-                <div className="name">Current plan</div>
-              </div>
-              <div className="card-action flex items-center justify-center">
-                <div className="btn button">{current_plan}</div>
+              <div className="card-name flex items-center justify-center flex-col">
+                <div className="name">level Matrix Earning</div>
+                <div className="amount">
+                  ${Number(level_earning) / 10 ** 18}
+                </div>
               </div>
             </div>
 
@@ -951,6 +998,22 @@ const Main = (props) => {
                 </div>
               </div>
             </div>
+
+
+            <div className="info-card flex flex-col items-center">
+              <div className="icons flex items-center justify-center relative">
+                <img src="./images/ellips.png" className="ellips" />
+                <img src="./images/icon1.svg" className="icon absolute" />
+              </div>
+              <div className="card-name flex items-center justify-center">
+                <div className="name">Current plan</div>
+              </div>
+              <div className="card-action flex items-center justify-center">
+                <div className="btn button">{current_plan}</div>
+              </div>
+            </div>
+
+
             {/* <div className="info-card flex flex-col items-center">
               <div className="icons flex items-center justify-center relative">
                 <img src="./images/ellips.png" className="ellips" />
@@ -976,13 +1039,11 @@ const Main = (props) => {
                 <div className="name">
                 https://crowdastral1.vercel.app/?ref=
                   {props.isWalletConnected
-                    ? props.address.slice(0, 4) +
-                      "..." +
-                      props.address.slice(38, 42)
+                    ? userId
                     : null}
                 </div>
 
-                <CopyToClipboard text={"https://crowdastral1.vercel.app//?ref=" + props.address}>
+                <CopyToClipboard text={"https://crowdastral1.vercel.app/?ref=" + userId}>
                   <div className="icon flex items-center justify-center cursor-pointer">
                     <div className="btn button">Copy Link</div>
                   </div>
@@ -999,7 +1060,7 @@ const Main = (props) => {
               </div>
               <div className="card-action flex items-center justify-between">
                 <div className="name">
-                  {planer.slice(0, 4) + "..." + planer.slice(38, 42)}
+                  {uplinerId}
                 </div>
                 <CopyToClipboard text={planer}>
                   <div className="icon flex items-center justify-center cursor-pointer">
@@ -1014,7 +1075,7 @@ const Main = (props) => {
                 <img src="./images/icon2.svg" className="icon absolute" />
               </div>
               <div className="card-name flex items-center justify-center flex-col">
-                <div className="name">Bonus</div>
+                <div className="name">Global Bonus</div>
                 <div className="amount">${Number(bonus) / 10 ** 18}</div>
               </div>
             </div>
@@ -1024,7 +1085,7 @@ const Main = (props) => {
                 <img src="./images/icon2.svg" className="icon absolute" />
               </div>
               <div className="card-name flex items-center justify-center flex-col">
-                <div className="name">Registeration Earning</div>
+                <div className="name">Id Activation</div>
                 <div className="amount">${Number(reg_earning) / 10 ** 18}</div>
               </div>
             </div>
@@ -1702,7 +1763,7 @@ const Main = (props) => {
                         you have to Unlock level matrix First
                       </div>
                       <div className="action flex items-center justify-center">
-                        {/* <div className="btn button" onClick={pay_fee}>Unlock Plan Now</div> */}
+                        {/* <div className="btn button" onClick={pay _fee}>Unlock Plan Now</div> */}
                       {/* </div>
                     </div>
                   </div> */}
@@ -1710,7 +1771,7 @@ const Main = (props) => {
 
                 <div className="prices-wrapper">
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">BASIC</div>
+                    <div className="price-tag">Plan 1</div>
                     <div className="price-amount">{plan1_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
@@ -1723,6 +1784,12 @@ const Main = (props) => {
                         <div className="dot"></div>
                         <div className="lbl">
                           Earning {Number(globalRef_earning[0]) / 10 ** 18}
+                        </div>
+                      </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[0]}
                         </div>
                       </div>
                     </div>
@@ -1761,6 +1828,12 @@ const Main = (props) => {
                           Earning {Number(globalRef_earning[1]) / 10 ** 18}
                         </div>
                       </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                          Total Team {globalRef_team[1]}
+                        </div>
+                      </div>
                     </div>
                 {!props.itsview?(
                 <> 
@@ -1795,6 +1868,12 @@ const Main = (props) => {
                         <div className="dot"></div>
                         <div className="lbl">
                           Earning {Number(globalRef_earning[2]) / 10 ** 18}
+                        </div>
+                      </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                          Total Team {globalRef_team[2]}
                         </div>
                       </div>
                     </div>
@@ -1833,6 +1912,12 @@ const Main = (props) => {
                           Earning {Number(globalRef_earning[3]) / 10 ** 18}
                         </div>
                       </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[3]}
+                        </div>
+                      </div>
                     </div>
                     {!props.itsview?(
                 <> 
@@ -1867,6 +1952,12 @@ const Main = (props) => {
                         <div className="dot"></div>
                         <div className="lbl">
                           Earning {Number(globalRef_earning[4]) / 10 ** 18}
+                        </div>
+                      </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[4]}
                         </div>
                       </div>
                     </div>
@@ -1906,6 +1997,12 @@ const Main = (props) => {
                           Earning {Number(globalRef_earning[5]) / 10 ** 18}
                         </div>
                       </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[5]}
+                        </div>
+                      </div>
                     </div>
                     {!props.itsview?(
                 <> 
@@ -1940,6 +2037,12 @@ const Main = (props) => {
                         <div className="dot"></div>
                         <div className="lbl">
                           Earning {Number(globalRef_earning[6]) / 10 ** 18}
+                        </div>
+                      </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[6]}
                         </div>
                       </div>
                     </div>
@@ -1978,6 +2081,12 @@ const Main = (props) => {
                           Earning {Number(globalRef_earning[7]) / 10 ** 18}
                         </div>
                       </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[7]}
+                        </div>
+                      </div>
                     </div>
                     {!props.itsview?(
                 <> 
@@ -2014,6 +2123,12 @@ const Main = (props) => {
                           Earning {Number(globalRef_earning[8]) / 10 ** 18}
                         </div>
                       </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[8]}
+                        </div>
+                      </div>
                     </div>
                     {!props.itsview?(
                 <> 
@@ -2048,6 +2163,12 @@ const Main = (props) => {
                         <div className="dot"></div>
                         <div className="lbl">
                           Earning {Number(globalRef_earning[9]) / 10 ** 18}
+                        </div>
+                      </div>
+                      <div className="item flex items-center">
+                        <div className="dot"></div>
+                        <div className="lbl">
+                         Total Team {globalRef_team[9]}
                         </div>
                       </div>
                     </div>

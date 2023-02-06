@@ -1,10 +1,10 @@
 
 
-// export const cont_address="0xFFEF831569aC22e3bf8c8b4087708B29Ad3F7f5d";
+// export const cont_address="0xdac7d98Bda6f205108946C33Ee6A10e7c1E9781A";
 // export const Token_address="0x8e1C1359c00212533033a8A1FCdb6bc395272D58";
 // export const nft_address="0x04d279873de44a9F9753E0EC8fD3404F42C56eeb";
 
-export const cont_address="0xa002862eCed94D808Cf8cEfC5CdBe170d34C25C3";
+export const cont_address="0x74D7c245ffE784E2544e498A39B3f5a4504615aC";
 export const Token_address="0x30aF54aeF773af78D6f052a327C32d3229c9661E";
 export const nft_address="0x58C0E7eA9C01B6D9F91FaE8ec891a94c9fFE7539";
 
@@ -67,6 +67,25 @@ export const cont_abi=[
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addresstoId",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -227,19 +246,6 @@ export const cont_abi=[
 	},
 	{
 		"inputs": [],
-		"name": "get_Current_plan",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "get_bonus",
 		"outputs": [
 			{
@@ -279,12 +285,25 @@ export const cont_abi=[
 	},
 	{
 		"inputs": [],
+		"name": "get_globalRef_team",
+		"outputs": [
+			{
+				"internalType": "uint256[10]",
+				"name": "",
+				"type": "uint256[10]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "get_globalref_perlevel_count",
 		"outputs": [
 			{
-				"internalType": "uint256[5]",
+				"internalType": "uint256[7]",
 				"name": "",
-				"type": "uint256[5]"
+				"type": "uint256[7]"
 			}
 		],
 		"stateMutability": "view",
@@ -295,9 +314,9 @@ export const cont_abi=[
 		"name": "get_globalref_perlevel_earning",
 		"outputs": [
 			{
-				"internalType": "uint256[5]",
+				"internalType": "uint256[7]",
 				"name": "",
-				"type": "uint256[5]"
+				"type": "uint256[7]"
 			}
 		],
 		"stateMutability": "view",
@@ -394,6 +413,25 @@ export const cont_abi=[
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "idtoAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
@@ -478,6 +516,11 @@ export const cont_abi=[
 				"internalType": "address",
 				"name": "_ref",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "id",
+				"type": "string"
 			}
 		],
 		"name": "level_matrix",

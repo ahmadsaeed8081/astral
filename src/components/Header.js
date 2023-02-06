@@ -39,7 +39,7 @@ const Header = (props) => {
       await provider.disconnect();
       window.location.reload("/");
     } catch {
-      window.location.reload("/");
+          window.location.reload("/");
 
     }
   }
@@ -175,17 +175,22 @@ const Header = (props) => {
   }
   async function new_user(_add) {
 
-   const web3 = new Web3(props.provider);
+      const web3 = new Web3(props.provider);
       
       const contract = new web3.eth.Contract(cont_abi, cont_address);
-    const fee_paid = await contract.methods.is_paid(_add.toString()).call();
-          if(fee_paid)
-          {
-            props.search_Data(_add,props.itsview);
-          }
-          else{
-            alert("Sorry! this is not a registered member")
-          }
+
+      let address=await contract.methods.idtoAddress(_add.toString()).call();
+
+      if(address!="0x0000000000000000000000000000000000000000")
+      {
+        props.search_Data(address,props.itsview);
+
+
+      }
+      else{
+        alert("Sorry! this is not a registered member")
+      }
+    
 
   }
   return (
@@ -193,7 +198,7 @@ const Header = (props) => {
       <div className="wrapWidth wrap flex aic">
         <div className="left flex aic">
           <Link to="/">
-            <img src="./images/logo.svg" className="logo-img" />
+            <img src="./images/logo.png" style={{ height:50 }} className="logo-img" />
           </Link>
         </div>
         <div className="right flex justify-end items-center">

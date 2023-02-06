@@ -30,21 +30,20 @@ const Login = (props) => {
 
   const [openWallet, setOpenWallet] = useState(false);
 
-  const [ref, set_ref] = useState("");
+  const [ref, set_ref] = useState(null);
+  const [refId, set_refId] = useState("");
+
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
-useEffect(()=>{
-  console.log("hihi");
-  set_ref(params.get("ref"));
-
+useEffect( ()=>{
+  set_refId(params.get("ref"));
 })
 
 async function Sign_out() {
   const provider = new WalletConnectProvider({
      rpc: {
-      //  137: "https://polygon-mainnet.g.alchemy.com/v2/eRdxPlEv3QpMS-1nPDFkjtO-qDmurAoF",
        56:"https://bsc-dataseed1.binance.org/"
      },
      chainId: 56,
@@ -93,7 +92,7 @@ async function Sign_out() {
         const contract = new web3.eth.Contract(cont_abi, cont_address);
         const contract1 = new web3.eth.Contract(tokenABI, Token_address);
         let balance = await contract1.methods.balanceOf(accounts[0]).call();
-
+        
         let matic = await web3.eth.getBalance(accounts[0]);
         balance = web3.utils.fromWei(balance, "ether");
         matic = web3.utils.fromWei(matic, "ether");
@@ -122,6 +121,7 @@ async function Sign_out() {
             navigate("/home");
           }
           else{
+            set_isWalletConnected(true)
             alert("You are not a register member")
             return
           }
@@ -129,7 +129,8 @@ async function Sign_out() {
 
         }
         else if(option==1) //register
-        {
+        { 
+          let _ref;
           const fee_paid = await contract.methods.is_paid(accounts[0]).call();
           console.log("13");
 
@@ -142,16 +143,28 @@ async function Sign_out() {
             navigate("/home");
             return;
           }
-          let levelMatrix_fee = 40;
+          else if(params.get("ref")!=null){
 
-          let _ref = params.get("ref");
+            let address=contract.methods.idtoAddress(params.get("ref")).call();
+              set_ref(address)
+              _ref = address.toString();
+            
+
+          }
+          const total_inv = await contract.methods.get_total_inv().call();
+
+          let levelMatrix_fee = 20;
+          const newId = "matref0"+total_inv+1
+           
           console.log("this is ref " + _ref);
           if (_ref == null) {
             _ref = "0x0000000000000000000000000000000000000000";
           }
-          try {
+          try 
+          {
 
-          if (Number(levelMatrix_fee) > Number(balance)) {
+          if (Number(levelMatrix_fee) > Number(balance))
+           {
               alert("You dont have enough busd");
               return;
             }
@@ -164,7 +177,7 @@ async function Sign_out() {
               .approve(cont_address, levelMatrix_fee.toString())
               .send({ from: accounts[0] });
             const result = await contract.methods
-              .level_matrix(_ref)
+              .level_matrix(_ref,newId.toString())
               .send({ from: accounts[0] });
             if (result) {
               props.set_user(accounts[0], web3, provider, balance, matic,false);            
@@ -181,16 +194,20 @@ async function Sign_out() {
         }
         else if(option==2)
         {
-          const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
-          if(fee_paid)
+          let address=await contract.methods.idtoAddress(viewAddress.toString()).call();
+          console.log("hlo its view add "+address);
+          // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
+          if(address!="0x0000000000000000000000000000000000000000")
           {
-            props.set_user(viewAddress, web3, provider, balance, matic,true);        
+            props.set_user(address, web3, provider, balance, matic,true);        
             dispatch(setUserToken(true));
     
             navigate("/home");
 
           }
           else{
+            set_isWalletConnected(true);
+
             alert("This user is not registered")
           }
           
@@ -198,13 +215,8 @@ async function Sign_out() {
 
           
         }
-        set_isWalletConnected(true);
 
-        // let matic = await web3.eth.getBalance(accounts[0]);
-        // balance = web3.utils.fromWei(balance, "ether");
-        // matic = web3.utils.fromWei(matic, "ether");
 
-        // set_user(accounts[0], web3, provider, balance, matic);
 
       } else {
         try {
@@ -215,18 +227,15 @@ async function Sign_out() {
           Connect_Wallet(id);
         } catch {}
       }
-    } else if (id == "2") {
+    } else if (id == "2" || id == "3") {
       //trust 1Wallet
       provider = new WalletConnectProvider({
         rpc: {
-          // 137: "https://polygon-mainnet.g.alchemy.com/v2/eRdxPlEv3QpMS-1nPDFkjtO-qDmurAoF",
           56:"https://bsc-dataseed1.binance.org/"
         },
         chainId: 56,
       });
-      // try {
-      //   await provider.disconnect();
-      // } catch {}
+
       console.log("trust wallet");
 
       console.log(provider);
@@ -264,6 +273,7 @@ async function Sign_out() {
 
         if(option==0) //fetch account
         {
+
           const fee_paid = await contract.methods.is_paid(accounts[0]).call();
 
 
@@ -275,14 +285,17 @@ async function Sign_out() {
             navigate("/home");
           }
           else{
-            alert("You are not a register member")
+            set_isWalletConnected(true);
+
+            alert("You are not a register member1")
             return
           }
 
 
         }
         else if(option==1) //register
-        {
+        { 
+          let _ref;
           const fee_paid = await contract.methods.is_paid(accounts[0]).call();
           console.log("13");
 
@@ -295,16 +308,28 @@ async function Sign_out() {
             navigate("/home");
             return;
           }
-          let levelMatrix_fee = 40;
+          else if(params.get("ref")!=null){
 
-          let _ref = params.get("ref");
+            let address=contract.methods.idtoAddress(params.get("ref")).call();
+              set_ref(address)
+              _ref = address.toString();
+            
+
+          }
+          const total_inv = await contract.methods.get_total_inv().call();
+
+          let levelMatrix_fee = 20;
+          const newId = "crdmtxf0"+total_inv+1
+           
           console.log("this is ref " + _ref);
           if (_ref == null) {
             _ref = "0x0000000000000000000000000000000000000000";
           }
-          try {
+          try 
+          {
 
-          if (Number(levelMatrix_fee) > Number(balance)) {
+          if (Number(levelMatrix_fee) > Number(balance))
+           {
               alert("You dont have enough busd");
               return;
             }
@@ -317,7 +342,7 @@ async function Sign_out() {
               .approve(cont_address, levelMatrix_fee.toString())
               .send({ from: accounts[0] });
             const result = await contract.methods
-              .level_matrix(_ref)
+              .level_matrix(_ref,newId.toString())
               .send({ from: accounts[0] });
             if (result) {
               props.set_user(accounts[0], web3, provider, balance, matic,false);            
@@ -326,18 +351,19 @@ async function Sign_out() {
               navigate("/home");
             }
           } catch (error) {
-            // Catch any errors for any of the above operations.
 
-            alert(error);
+            console.error(error);
           }
 
         }
         else if(option==2)
         {
-          const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
-          if(fee_paid)
+          let address= await contract.methods.idtoAddress(viewAddress.toString()).call();
+
+          // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
+          if(address!="0x0000000000000000000000000000000000000000")
           {
-            props.set_user(viewAddress, web3, provider, balance, matic,true);        
+            props.set_user(address, web3, provider, balance, matic,true);        
             dispatch(setUserToken(true));
     
             navigate("/home");
@@ -346,6 +372,7 @@ async function Sign_out() {
           else{
             alert("This user is not registered")
           }
+          
           
 
 
@@ -373,175 +400,176 @@ async function Sign_out() {
           alert("Kindly change your network to Binance");
         }
       }
-    } else if (id == "3") {
-      //Wallet connect
-      provider = new WalletConnectProvider({
-        rpc: {
-          // 137: "https://polygon-mainnet.g.alchemy.com/v2/eRdxPlEv3QpMS-1nPDFkjtO-qDmurAoF",
-          56:"https://bsc-dataseed1.binance.org/"
-        },
-        chainId: 56,
-      });
+    } 
+    //else if (id == "3") {
+    //   //Wallet connect
+    //   provider = new WalletConnectProvider({
+    //     rpc: {
+    //       // 137: "https://polygon-mainnet.g.alchemy.com/v2/eRdxPlEv3QpMS-1nPDFkjtO-qDmurAoF",
+    //       56:"https://bsc-dataseed1.binance.org/"
+    //     },
+    //     chainId: 56,
+    //   });
       
-      setOpenWallet(false);
+    //   setOpenWallet(false);
 
-      await provider.enable();
+    //   await provider.enable();
 
-      console.log("this is provider");
-      console.log(provider.wc.peerMeta);
+    //   console.log("this is provider");
+    //   console.log(provider.wc.peerMeta);
 
-      web3 = new Web3(provider);
+    //   web3 = new Web3(provider);
 
-      const networkId = await web3.eth.net.getId();
-      console.log("yguygy7 " + networkId);
-      if (networkId == NETWORK_ID) {
-        console.log("0");
+    //   const networkId = await web3.eth.net.getId();
+    //   console.log("yguygy7 " + networkId);
+    //   if (networkId == NETWORK_ID) {
+    //     console.log("0");
 
-         accounts = await web3.eth.getAccounts();        console.log("1");
-        set_address(accounts[0]);
-        console.log("2"+accounts[0]);
+    //      accounts = await web3.eth.getAccounts();        console.log("1");
+    //     set_address(accounts[0]);
+    //     console.log("2"+accounts[0]);
 
-        const contract = new web3.eth.Contract(cont_abi, cont_address);
-        const contract1 = new web3.eth.Contract(tokenABI, Token_address);
-        console.log("3"+accounts);
+    //     const contract = new web3.eth.Contract(cont_abi, cont_address);
+    //     const contract1 = new web3.eth.Contract(tokenABI, Token_address);
+    //     console.log("3"+accounts);
 
-        let balance = await contract1.methods.balanceOf(accounts.toString()).call();
-        // let balance = "0";
+    //     let balance = await contract1.methods.balanceOf(accounts.toString()).call();
+    //     // let balance = "0";
 
-        console.log("4"+balance);
+    //     console.log("4"+balance);
 
-        let matic = await web3.eth.getBalance(accounts[0]);
-        balance = web3.utils.fromWei(balance, "ether");
-        matic = web3.utils.fromWei(matic, "ether");
-
-
-        console.log("meta and trust provider");
-
-        set_balance(balance)
-        set_matic(matic)
-        set_provider(provider)
-        set_web3(web3);
-        set_contract(contract)
-        set_contract1(contract1)
+    //     let matic = await web3.eth.getBalance(accounts[0]);
+    //     balance = web3.utils.fromWei(balance, "ether");
+    //     matic = web3.utils.fromWei(matic, "ether");
 
 
+    //     console.log("meta and trust provider");
 
-        if(option==0) //fetch account
-        {
-          console.log("12");
-          const fee_paid = await contract.methods.is_paid(accounts[0]).call();
-          console.log("13");
-
-
-          if(fee_paid)
-          { 
-            props.set_user(accounts[0], web3, provider, balance, matic,false);            
-            dispatch(setUserToken(true));
-
-            navigate("/home");
-          }
-          else{
-            alert("You are not a register member")
-            return
-          }
+    //     set_balance(balance)
+    //     set_matic(matic)
+    //     set_provider(provider)
+    //     set_web3(web3);
+    //     set_contract(contract)
+    //     set_contract1(contract1)
 
 
-        }
-        else if(option==1) //register
-        {
 
-          const fee_paid = await contract.methods.is_paid(accounts[0]).call();
-          console.log("13");
+    //     if(option==0) //fetch account
+    //     {
+    //       console.log("12");
+    //       const fee_paid = await contract.methods.is_paid(accounts[0]).call();
+    //       console.log("13");
 
 
-          if(fee_paid)
-          { 
-            props.set_user(accounts[0], web3, provider, balance, matic,false);            
-            dispatch(setUserToken(true));
+    //       if(fee_paid)
+    //       { 
+    //         props.set_user(accounts[0], web3, provider, balance, matic,false);            
+    //         dispatch(setUserToken(true));
 
-            navigate("/home");
-            return;
-          }
+    //         navigate("/home");
+    //       }
+    //       else{
+    //         alert("You are not a register member")
+    //         return
+    //       }
+
+
+    //     }
+    //     else if(option==1) //register
+    //     {
+
+    //       const fee_paid = await contract.methods.is_paid(accounts[0]).call();
+    //       console.log("13");
+
+
+    //       if(fee_paid)
+    //       { 
+    //         props.set_user(accounts[0], web3, provider, balance, matic,false);            
+    //         dispatch(setUserToken(true));
+
+    //         navigate("/home");
+    //         return;
+    //       }
           
-          let levelMatrix_fee = 40;
+    //       let levelMatrix_fee = 20;
 
-          let _ref = params.get("ref");
-          console.log("this is ref " + _ref);
-          if (_ref == null) {
-            _ref = "0x0000000000000000000000000000000000000000";
-          }
-          try {
+    //       let _ref = ref;
+    //       console.log("this is ref " + _ref);
+    //       if (_ref == null) {
+    //         _ref = "0x0000000000000000000000000000000000000000";
+    //       }
+    //       try {
 
-          if (Number(levelMatrix_fee) > Number(balance)) {
-              alert("You dont have enough busd");
-              return;
-            }
+    //       if (Number(levelMatrix_fee) > Number(balance)) {
+    //           alert("You dont have enough busd");
+    //           return;
+    //         }
 
-            levelMatrix_fee = levelMatrix_fee * 10 ** 18;
-            console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
-            console.log("this is ref1 " + _ref);
+    //         levelMatrix_fee = levelMatrix_fee * 10 ** 18;
+    //         console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
+    //         console.log("this is ref1 " + _ref);
 
-            await contract1.methods
-              .approve(cont_address, levelMatrix_fee.toString())
-              .send({ from: accounts[0] });
-            const result = await contract.methods
-              .level_matrix(_ref)
-              .send({ from: accounts[0] });
-            if (result) {
-              props.set_user(accounts[0], web3, provider, balance, matic,false);            
-              dispatch(setUserToken(true));
+    //         await contract1.methods
+    //           .approve(cont_address, levelMatrix_fee.toString())
+    //           .send({ from: accounts[0] });
+    //         const result = await contract.methods
+    //           .level_matrix(_ref)
+    //           .send({ from: accounts[0] });
+    //         if (result) {
+    //           props.set_user(accounts[0], web3, provider, balance, matic,false);            
+    //           dispatch(setUserToken(true));
 
-              navigate("/home");
-            }
-          } catch (error) {
-            // Catch any errors for any of the above operations.
+    //           navigate("/home");
+    //         }
+    //       } catch (error) {
+    //         // Catch any errors for any of the above operations.
 
-            console.error(error);
-          }
+    //         console.error(error);
+    //       }
 
-        }
-        else if(option==2)
-        {
-          const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
-          if(fee_paid)
-          {
-            props.set_user(viewAddress, web3, provider, balance, matic,true);        
-            dispatch(setUserToken(true));
+    //     }
+    //     else if(option==2)
+    //     {
+    //       const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
+    //       if(fee_paid)
+    //       {
+    //         props.set_user(viewAddress, web3, provider, balance, matic,true);        
+    //         dispatch(setUserToken(true));
     
-            navigate("/home");
+    //         navigate("/home");
 
-          }
-          else{
-            alert("This user is not registered")
-          }
+    //       }
+    //       else{
+    //         alert("This user is not registered")
+    //       }
           
 
 
           
-        }
-        set_isWalletConnected(true);
+    //     }
+    //     set_isWalletConnected(true);
 
-        // let matic = await web3.eth.getBalance(accounts[0]);
-        // balance = web3.utils.fromWei(balance, "ether");
-        // matic = web3.utils.fromWei(matic, "ether");
+    //     // let matic = await web3.eth.getBalance(accounts[0]);
+    //     // balance = web3.utils.fromWei(balance, "ether");
+    //     // matic = web3.utils.fromWei(matic, "ether");
 
-        // set_user(accounts[0], web3, provider, balance, matic);
+    //     // set_user(accounts[0], web3, provider, balance, matic);
 
-      } else {
-        if (provider.wc.peerMeta.name == "MetaMask") {
-          await provider.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0x38" }],
-          });
-          Connect_Wallet(id);
-        } else {
-          setOpenWallet(false);
+    //   } else {
+    //     if (provider.wc.peerMeta.name == "MetaMask") {
+    //       await provider.request({
+    //         method: "wallet_switchEthereumChain",
+    //         params: [{ chainId: "0x38" }],
+    //       });
+    //       Connect_Wallet(id);
+    //     } else {
+    //       setOpenWallet(false);
 
-          await provider.disconnect();
-          alert("Kindly change your network to Binance");
-        }
-      }
-    }
+    //       await provider.disconnect();
+    //       alert("Kindly change your network to Binance");
+    //     }
+    //   }
+    // }
   }
 
 
@@ -556,7 +584,7 @@ async function Sign_out() {
     {
       if(viewAddress==null)
       {
-        alert("kindly put an address to view ")
+        alert("kindly put an id to view ")
         return;
       }
     }
@@ -581,69 +609,87 @@ async function Sign_out() {
       }
       if(val==1)
       {
-        const fee_paid = await contract.methods.is_paid(address).call();
-        console.log("13");
+        {
+          let _ref;
+          const fee_paid = await contract.methods.is_paid(address).call();
+          console.log("13");
 
 
-        if(fee_paid)
-        { 
-          props.set_user(address, web3, provider, balance, matic,false);            
-          dispatch(setUserToken(true));
-
-          navigate("/home");
-          return;
-        }
-        let levelMatrix_fee = 40;
-
-        let _ref = params.get("ref");
-        console.log("this is ref " + _ref);
-        if (_ref == null) {
-          _ref = "0x0000000000000000000000000000000000000000";
-        }
-        try {
-
-        if (Number(levelMatrix_fee) > Number(balance)) {
-            alert("You dont have enough busd");
-            return;
-          }
-
-          levelMatrix_fee = levelMatrix_fee * 10 ** 18;
-          console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
-          console.log("this is ref1 " + _ref);
-
-          await contract1.methods
-            .approve(cont_address, levelMatrix_fee.toString())
-            .send({ from: address });
-          const result = await contract.methods
-            .level_matrix(_ref)
-            .send({ from: address });
-          if (result) {
+          if(fee_paid)
+          { 
             props.set_user(address, web3, provider, balance, matic,false);            
             dispatch(setUserToken(true));
 
             navigate("/home");
+            return;
           }
-        } catch (error) {
-          // Catch any errors for any of the above operations.
+          else if(params.get("ref")!=null){
 
-          console.error(error);
+            let address=contract.methods.idtoAddress(params.get("ref")).call();
+              set_ref(address)
+              _ref = address;
+            
+
+          }
+          const total_inv = await contract.methods.get_total_inv().call();
+
+          let levelMatrix_fee = 20;
+          const newId = "crdmtxf0"+total_inv+1
+           
+          console.log("this is ref " + _ref);
+          if (_ref == null) {
+            _ref = "0x0000000000000000000000000000000000000000";
+          }
+          try 
+          {
+
+          if (Number(levelMatrix_fee) > Number(balance))
+           {
+              alert("You dont have enough busd");
+              return;
+            }
+
+            levelMatrix_fee = levelMatrix_fee * 10 ** 18;
+            console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
+            console.log("this is ref1 " + _ref);
+
+            await contract1.methods
+              .approve(cont_address, levelMatrix_fee.toString())
+              .send({ from: address });
+            const result = await contract.methods
+              .level_matrix(_ref,newId.toString())
+              .send({ from: address });
+            if (result) {
+              props.set_user(address, web3, provider, balance, matic,false);            
+              dispatch(setUserToken(true));
+
+              navigate("/home");
+            }
+          } catch (error) {
+            // Catch any errors for any of the above operations.
+
+            console.error(error);
+          }
+
         }
-       
       }
       if(val==2)
       {
-        const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
-        if(fee_paid)
-        {
-          props.set_user(viewAddress, web3, provider, balance, matic,true);        
-          dispatch(setUserToken(true));
-  
-          navigate("/home");
+        let address=await contract.methods.idtoAddress(viewAddress.toString()).call();
 
-        }
-        else{
-          alert("This user is not registered")
-        }
+          // const fee_paid = await contract.methods.is_paid(viewAddress.toString()).call();
+          if(address!="0x0000000000000000000000000000000000000000")
+          {
+            props.set_user(address, web3, provider, balance, matic,true);        
+            dispatch(setUserToken(true));
+    
+            navigate("/home");
+
+          }
+          else{
+            alert("This user is not registered")
+          }
+          
       }
     }else{
       setOpenWallet(true);
@@ -661,7 +707,7 @@ async function Sign_out() {
         <div className="wrapper-box flex flex-col">
           <div className="container flex flex-col">
             <div className="logo flex items-center justify-center">
-              <img src="./images/logo.svg" className="logo-img" />
+              <img src="./images/logo.png" type="png"  className="logo-img" />
             </div>
             <div className="login-desc">To view account ID or BNB wallet</div>
             <input
@@ -700,7 +746,7 @@ async function Sign_out() {
               </button> */}
             </div>
             <div className="login-desc">REGISTER WITH US</div>
-            <input type="text" placeholder="REGISTER WITH US" className="txt" readOnly value={ref}/>
+            <input type="text" placeholder="REGISTER WITH US" className="txt" readOnly value={refId}/>
             <div className="action flex items-center justify-center">
               <button className="btn button" onClick={(e) => handleLogin(1)}>Register</button>
             </div>
