@@ -119,36 +119,6 @@ const Main = (props) => {
     getData();
   }, [props.provider, props.address]);
 
-  function get_Current_plan() {
-    var current_plan;
-    if (!is_paid) {
-      current_plan = "None";
-    } else if (!is_gloabl_plan1_paid) {
-      current_plan = "Level Matrix";
-    } else if (!is_gloabl_plan2_paid) {
-      current_plan = " Global plan 1";
-    } else if (!is_gloabl_plan3_paid) {
-      current_plan = "Global plan 2";
-    } else if (!is_gloabl_plan4_paid) {
-      current_plan = "Global plan 3";
-    } else if (!is_gloabl_plan5_paid) {
-      current_plan = "Global plan 4";
-    } else if (!is_gloabl_plan6_paid) {
-      current_plan = "Global plan 5";
-    } else if (!is_gloabl_plan7_paid) {
-      current_plan = " Global plan 6";
-    } else if (!is_gloabl_plan8_paid) {
-      current_plan = "Global plan 7";
-    } else if (!is_gloabl_plan9_paid) {
-      current_plan = "Global plan 8";
-    } else if (!is_gloabl_plan10_paid) {
-      current_plan = "Global plan 9";
-    } else {
-      current_plan = "Global plan 10";
-    }
-
-    return current_plan;
-  }
 
   async function getData() {
     if (!props.isWalletConnected) {
