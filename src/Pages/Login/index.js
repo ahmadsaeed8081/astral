@@ -8,6 +8,8 @@ import Modal1 from "../../../src/components/Modal1.js";
 import Web3 from "web3";
 import { cont_address, cont_abi, tokenABI, Token_address } from "../../../src/components/config";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+// import { useFocusEffect } from '@react-navigation/native';
+
 const Login = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,7 +40,10 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
-  // Sign_out1();
+  if(!isWalletConnected){
+    Sign_out1();
+
+  }
   set_refId(params.get("ref"));
 })
 
@@ -63,14 +68,14 @@ async function Sign_out() {
 
  }
 
- window.addEventListener('beforeunload', function (e) {
-  // Check for a reload navigation
-  if (performance.navigation.type === 1) {
-    console.log('Reload detected');
-    Sign_out1();
+//  window.addEventListener('beforeunload', function (e) {
+//   // Check for a reload navigation
+//   if (performance.navigation.type === 1) {
+//     console.log('Reload detected');
+//     Sign_out1();
 
-  }
-});
+//   }
+// });
 
 
 
@@ -142,7 +147,7 @@ async function Sign_out() {
         set_contract(contract)
         set_contract1(contract1)
 
-
+        set_isWalletConnected(true)
 
         if(option==0) //fetch account
         {
@@ -303,7 +308,7 @@ async function Sign_out() {
         matic = web3.utils.fromWei(matic, "ether");
 
 
-
+        set_isWalletConnected(true)
         set_balance(balance)
         set_matic(matic)
         set_provider(provider)
