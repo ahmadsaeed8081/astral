@@ -5,6 +5,7 @@ import {
   PartnerIcon,
   CycleIcon,
 } from "react-copy-to-clipboard";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { LockIcon } from "../../assets";
 import Header from "../../components/Header";
@@ -171,6 +172,27 @@ const Main = (props) => {
     },
   ];
 
+  async function Sign_out1() {
+    const provider = new WalletConnectProvider({
+       rpc: {
+         56:"https://bsc-dataseed1.binance.org/"
+       },
+       chainId: 56,
+     });
+     
+     console.log("hello its signout provider "+ provider);
+     try{
+      await provider.disconnect();
+      console.log("hello its signout provider 1"+ provider);
+  
+     }
+     catch{
+    alert("eror")
+  
+     }
+  
+  
+   }
   useEffect(() => {
     getData();
     console.log("hello " + props.address);
