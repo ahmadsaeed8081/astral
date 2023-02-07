@@ -206,7 +206,6 @@ const Main = (props) => {
       e.returnValue = '';
         console.log("object reload");
         Sign_out1();
-      return 'Your custom message here';
     
     
     };
