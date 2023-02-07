@@ -123,25 +123,6 @@ const Main = (props) => {
   const [r102, set_r102] = useState(0);
 
 
-
-  async function Sign_out1() {
-    const provider = new WalletConnectProvider({
-       rpc: {
-         56:"https://bsc-dataseed1.binance.org/"
-       },
-       chainId: 56,
-     });
-     
-     try{
-      await provider.disconnect();
-  
-     }
-     catch{
-  
-     }
-  
-  
-   }
   useEffect(() => {
     getData();
   }, [props.provider, props.address]);

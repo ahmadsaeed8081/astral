@@ -40,33 +40,14 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
-  if(!isWalletConnected){
-    Sign_out1();
+  // if(!isWalletConnected){
+  //   Sign_out1();
 
-  }
+  // }
   set_refId(params.get("ref"));
 })
 
-async function Sign_out() {
-  const provider = new WalletConnectProvider({
-     rpc: {
-       56:"https://bsc-dataseed1.binance.org/"
-     },
-     chainId: 56,
-   });
 
-   console.log(provider);
-   try{
-    await provider.disconnect();
-    window.location.reload("/");
-   }
-   catch{
-    window.location.reload("/");
-
-   }
-
-
- }
 
 //  window.addEventListener('beforeunload', function (e) {
 //   // Check for a reload navigation
