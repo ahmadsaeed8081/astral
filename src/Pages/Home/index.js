@@ -201,7 +201,7 @@ const Main = (props) => {
       const fee1 = await contract.methods.reg_fee().call();
       const fee_paid = await contract.methods.is_paid(props.address).call();
 
- 
+      alert("object 1");
 
       const global1 = await contract.methods
         .is_globalMatrix_bought(0, props.address)
@@ -239,7 +239,8 @@ const Main = (props) => {
         .addresstoId(props.address.toString())
         .call();
 
-        
+        alert("object 2");
+
 
 
       let level_matrix_earning = await contract.methods
@@ -258,6 +259,8 @@ const Main = (props) => {
         // const globalMatrix_Refearning = await contract.methods
         // .globalMatrix_RefearningOf(props.address)
         // .call();
+        alert("object 3");
+
       let total_earning = await contract.methods
         .Total_earningOf(props.address)
         .call();
@@ -291,6 +294,7 @@ const Main = (props) => {
         let upliner_id = await contract.methods
         .addresstoId(upliner)
         .call();
+        alert("object 4");
 
 
       set_reg_earning(regfee_earning)
@@ -303,7 +307,7 @@ const Main = (props) => {
       set_globalref_perlevel_count(globalref_perlevel_count);
       set_totalglobal_earning(totalglobal_earning);
       set_total_earning(total_earning);
-      console.log("helo it is " + globalRef_earning);
+      alert("helo it is " + globalRef_earning);
       set_bonus(bonus);
       // let upliner = await contract.methods.uplinerOf(props.address).call();
       set_level_earning(level_matrix_earning);
@@ -323,9 +327,10 @@ const Main = (props) => {
 
       set_userId(user_id)
       set_uplinerId(upliner_id)
+      alert("object 5");
 
       set_fee(fee1);
-      console.log("ref " + params.get("ref"));
+      alert("ref " + params.get("ref"));
       let data = await contract.methods
         .data(0, props.address)
         .call({ from: props.address.toString() });
@@ -375,7 +380,7 @@ const Main = (props) => {
       set_plane10_data(data9);
       set_current_plan(get_Current_plan());
 
-      console.log("object");
+      alert("object 5");
 
 
 
@@ -488,6 +493,7 @@ const Main = (props) => {
         set_r92(r92);
         set_r101(r101);
         set_r102(r102);
+        alert("object 7");
 
       // const bal = await contract1.methods.balanceOf(accounts[0]).call();
       // set_user_balance(bal);
