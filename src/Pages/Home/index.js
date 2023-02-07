@@ -315,168 +315,178 @@ const Main = (props) => {
       set_current_plan(get_Current_plan());
 
 
-      // const global_paid = await contract.methods
-      // .check_globalPlans_bought()
-      // .call({ from: props.address.toString() });
-                                                            //uncomment it
 
-      // set_global_plan1_paid(global_paid[0]);
-      // set_global_plan2_paid(global_paid[1]);
-      // set_global_plan3_paid(global_paid[2]);
-      // set_global_plan4_paid(global_paid[3]);
-      // set_global_plan5_paid(global_paid[4]);
-      // set_global_plan6_paid(global_paid[5]);
-      // set_global_plan7_paid(global_paid[6]);
-      // set_global_plan8_paid(global_paid[7]);
-      // set_global_plan9_paid(global_paid[8]);
-      // set_global_plan10_paid(global_paid[9]);
 
-      let r11 = await contract.methods
-        .ref_check(0, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r12 = await contract.methods
-        .ref_check(0, props.address, 2)
-        .call({ from: props.address.toString() });
+
+      let ref_check = await contract.methods
+      .get_checkRef()
+      .call({ from: props.address.toString() });
+
+
+      // let r11 = await contract.methods
+      //   .ref_check(0, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r12 = await contract.methods
+      //   .ref_check(0, props.address, 2)
+      //   .call({ from: props.address.toString() });
   
-        set_r11(r11);
-        set_r12(r12);
+        set_r11(ref_check[0]);
+        set_r12(ref_check[1]);
 
 
-      let r21 = await contract.methods
-        .ref_check(1, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r22 = await contract.methods
-        .ref_check(1, props.address, 2)
-        .call({ from: props.address.toString() });
+      // let r21 = await contract.methods
+      //   .ref_check(1, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r22 = await contract.methods
+      //   .ref_check(1, props.address, 2)
+      //   .call({ from: props.address.toString() });
 
-        set_r21(r21);
-        set_r22(r22);
-
-
-      let r31 = await contract.methods
-        .ref_check(2, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r32 = await contract.methods
-        .ref_check(2, props.address, 2)
-        .call({ from: props.address.toString() });
-
-        set_r31(r31);
-        set_r32(r32);
-
-      let r41 = await contract.methods
-        .ref_check(3, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r42 = await contract.methods
-        .ref_check(3, props.address, 2)
-        .call({ from: props.address.toString() });
-
-        set_r41(r41);
-        set_r42(r42);
+        set_r21(ref_check[2]);
+        set_r22(ref_check[3]);
 
 
-      let r51 = await contract.methods
-        .ref_check(4, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r52 = await contract.methods
-        .ref_check(4, props.address, 2)
-        .call({ from: props.address.toString() });
+      // let r31 = await contract.methods
+      //   .ref_check(2, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r32 = await contract.methods
+      //   .ref_check(2, props.address, 2)
+      //   .call({ from: props.address.toString() });
 
-        set_r51(r51);
-        set_r52(r52);
+        set_r31(ref_check[4]);
+        set_r32(ref_check[5]);
 
-      let r61 = await contract.methods
-        .ref_check(5, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r62 = await contract.methods
-        .ref_check(5, props.address, 2)
-        .call({ from: props.address.toString() });
+      // let r41 = await contract.methods
+      //   .ref_check(3, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r42 = await contract.methods
+      //   .ref_check(3, props.address, 2)
+      //   .call({ from: props.address.toString() });
 
-        set_r61(r61);
-        set_r62(r62);
-
-      let r71 = await contract.methods
-        .ref_check(6, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r72 = await contract.methods
-        .ref_check(6, props.address, 2)
-        .call({ from: props.address.toString() });
-
-        set_r71(r71);
-        set_r72(r72);
-
-      let r81 = await contract.methods
-        .ref_check(7, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r82 = await contract.methods
-        .ref_check(7, props.address, 2)
-        .call({ from: props.address.toString() });
-
-        set_r81(r81);
-        set_r82(r82);
-
-      let r91 = await contract.methods
-        .ref_check(8, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r92 = await contract.methods
-        .ref_check(8, props.address, 2)
-        .call({ from: props.address.toString() });
+        set_r41(ref_check[6]);
+        set_r42(ref_check[7]);
 
 
-        set_r91(r91);
-        set_r92(r92);
+      // let r51 = await contract.methods
+      //   .ref_check(4, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r52 = await contract.methods
+      //   .ref_check(4, props.address, 2)
+      //   .call({ from: props.address.toString() });
 
-      let r101 = await contract.methods
-        .ref_check(9, props.address, 1)
-        .call({ from: props.address.toString() });
-      let r102 = await contract.methods
-        .ref_check(9, props.address, 2)
-        .call({ from: props.address.toString() });
+        set_r51(ref_check[8]);
+        set_r52(ref_check[9]);
 
+      // let r61 = await contract.methods
+      //   .ref_check(5, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r62 = await contract.methods
+      //   .ref_check(5, props.address, 2)
+      //   .call({ from: props.address.toString() });
+
+        set_r61(ref_check[10]);
+        set_r62(ref_check[11]);
+
+      // let r71 = await contract.methods
+      //   .ref_check(6, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r72 = await contract.methods
+      //   .ref_check(6, props.address, 2)
+      //   .call({ from: props.address.toString() });
+
+        set_r71(ref_check[12]);
+        set_r72(ref_check[13]);
+
+      // let r81 = await contract.methods
+      //   .ref_check(7, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r82 = await contract.methods
+      //   .ref_check(7, props.address, 2)
+      //   .call({ from: props.address.toString() });
+
+        set_r81(ref_check[14]);
+        set_r82(ref_check[15]);
+
+      // let r91 = await contract.methods
+      //   .ref_check(8, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r92 = await contract.methods
+      //   .ref_check(8, props.address, 2)
+      //   .call({ from: props.address.toString() });
+
+
+        set_r91(ref_check[16]);
+        set_r92(ref_check[17]);
+
+      // let r101 = await contract.methods
+      //   .ref_check(9, props.address, 1)
+      //   .call({ from: props.address.toString() });
+      // let r102 = await contract.methods
+      //   .ref_check(9, props.address, 2)
+      //   .call({ from: props.address.toString() });
+      set_r101(ref_check[18]);
+      set_r102(ref_check[19]);
   
-      const global1 = await contract.methods
-      .is_globalMatrix_bought(0, props.address)
-      .call();
-    const global2 = await contract.methods
-      .is_globalMatrix_bought(1, props.address)
-      .call();
-    const global3 = await contract.methods
-      .is_globalMatrix_bought(2, props.address)
-      .call();
-    const global4 = await contract.methods
-      .is_globalMatrix_bought(3, props.address)
-      .call();
-    const global5 = await contract.methods
-      .is_globalMatrix_bought(4, props.address)
-      .call();
-    const global6 = await contract.methods
-      .is_globalMatrix_bought(5, props.address)
-      .call();
-    const global7 = await contract.methods
-      .is_globalMatrix_bought(6, props.address)
-      .call();
-    const global8 = await contract.methods
-      .is_globalMatrix_bought(7, props.address)
-      .call();
-    const global9 = await contract.methods
-      .is_globalMatrix_bought(8, props.address)
-      .call();
-    const global10 = await contract.methods
-      .is_globalMatrix_bought(9, props.address)
-      .call();
+
+      const global_paid = await contract.methods
+      .check_globalPlans_bought()
+      .call({ from: props.address.toString() });
+
+      set_global_plan1_paid(global_paid[0]);
+      set_global_plan2_paid(global_paid[1]);
+      set_global_plan3_paid(global_paid[2]);
+      set_global_plan4_paid(global_paid[3]);
+      set_global_plan5_paid(global_paid[4]);
+      set_global_plan6_paid(global_paid[5]);
+      set_global_plan7_paid(global_paid[6]);
+      set_global_plan8_paid(global_paid[7]);
+      set_global_plan9_paid(global_paid[8]);
+      set_global_plan10_paid(global_paid[9]);
+
+      console.log("get data end");
+    //   const global1 = await contract.methods
+    //   .is_globalMatrix_bought(0, props.address)
+    //   .call();
+    // const global2 = await contract.methods
+    //   .is_globalMatrix_bought(1, props.address)
+    //   .call();
+    // const global3 = await contract.methods
+    //   .is_globalMatrix_bought(2, props.address)
+    //   .call();
+    // const global4 = await contract.methods
+    //   .is_globalMatrix_bought(3, props.address)
+    //   .call();
+    // const global5 = await contract.methods
+    //   .is_globalMatrix_bought(4, props.address)
+    //   .call();
+    // const global6 = await contract.methods
+    //   .is_globalMatrix_bought(5, props.address)
+    //   .call();
+    // const global7 = await contract.methods
+    //   .is_globalMatrix_bought(6, props.address)
+    //   .call();
+    // const global8 = await contract.methods
+    //   .is_globalMatrix_bought(7, props.address)
+    //   .call();
+    // const global9 = await contract.methods
+    //   .is_globalMatrix_bought(8, props.address)
+    //   .call();
+    // const global10 = await contract.methods
+    //   .is_globalMatrix_bought(9, props.address)
+    //   .call();
 
 
 
 
-    set_global_plan1_paid(global1);
-    set_global_plan2_paid(global2);
-    set_global_plan3_paid(global3);
-    set_global_plan4_paid(global4);
-    set_global_plan5_paid(global5);
-    set_global_plan6_paid(global6);
-    set_global_plan7_paid(global7);
-    set_global_plan8_paid(global8);
-    set_global_plan9_paid(global9);
-    set_global_plan10_paid(global10);
+    // set_global_plan1_paid(global1);
+    // set_global_plan2_paid(global2);
+    // set_global_plan3_paid(global3);
+    // set_global_plan4_paid(global4);
+    // set_global_plan5_paid(global5);
+    // set_global_plan6_paid(global6);
+    // set_global_plan7_paid(global7);
+    // set_global_plan8_paid(global8);
+    // set_global_plan9_paid(global9);
+    // set_global_plan10_paid(global10);
 
 
 
@@ -486,8 +496,7 @@ const Main = (props) => {
 
 
 
-        set_r101(r101);
-        set_r102(r102);
+
 
       // const bal = await contract1.methods.balanceOf(accounts[0]).call();
       // set_user_balance(bal);
