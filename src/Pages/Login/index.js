@@ -348,7 +348,7 @@ useEffect( ()=>{
           const total_inv = await contract.methods.get_total_inv().call();
 
           let levelMatrix_fee = 20;
-          const newId = "crdmtx0"+total_inv+1
+          const newId = "crdmtx98"+Number(total_inv)+1
            
           console.log("this is ref " + _ref);
           if (_ref == null) {
