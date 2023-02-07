@@ -120,7 +120,7 @@ useEffect( ()=>{
         matic = web3.utils.fromWei(matic, "ether");
 
 
-        console.log("meta and trust provider");
+        console.log("meta and trust provider ");
         set_balance(balance)
         set_matic(matic)
         set_provider(provider)
@@ -178,9 +178,10 @@ useEffect( ()=>{
           const total_inv = await contract.methods.get_total_inv().call();
 
           let levelMatrix_fee = 20;
-          const newId = "crdmtx98"+Number(total_inv)+1
+          let val=Number(total_inv)+1
+          const newId = "crdmtx98"+val;
            
-          console.log("this is ref " + _ref);
+          console.log("this is newid " + newId);
           if (_ref == null) {
             _ref = "0x0000000000000000000000000000000000000000";
           }
@@ -348,9 +349,10 @@ useEffect( ()=>{
           const total_inv = await contract.methods.get_total_inv().call();
 
           let levelMatrix_fee = 20;
-          const newId = "crdmtx98"+Number(total_inv)+1
+          let val=Number(total_inv)+1;
+          const newId = "crdmtx98"+val;
            
-          console.log("this is ref " + _ref);
+          console.log("this is newid " + newId);
           if (_ref == null) {
             _ref = "0x0000000000000000000000000000000000000000";
           }
