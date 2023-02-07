@@ -41,7 +41,6 @@ const Main = (props) => {
   const [level_earning, set_level_earning] = useState("");
   const [current_plan, set_current_plan] = useState("NAN");
 
-  const [fee, set_fee] = useState("");
   const [bonus, set_bonus] = useState("");
   const [direct_ref, set_direct_ref] = useState("");
   const [globalRef_direct, set_globalRef_direct] = useState([]);
@@ -49,10 +48,7 @@ const Main = (props) => {
 
   const [globalRef_earning, set_globalRef_earning] = useState([]);
 
-  const [globalref_perlevel_earning, set_globalref_perlevel_earning] = useState(
-    []
-  );
-  const [globalref_perlevel_count, set_globalref_perlevel_count] = useState([]);
+
   const [totalglobal_earning, set_totalglobal_earning] = useState([]);
 
   const [uplinerId, set_uplinerId] = useState("");
@@ -198,48 +194,13 @@ const Main = (props) => {
       const contract = new web3.eth.Contract(cont_abi, cont_address);
     
 
-      const fee1 = await contract.methods.reg_fee().call();
       const fee_paid = await contract.methods.is_paid(props.address).call();
-
-      alert("object 1");
-
-      const global1 = await contract.methods
-        .is_globalMatrix_bought(0, props.address)
-        .call();
-      const global2 = await contract.methods
-        .is_globalMatrix_bought(1, props.address)
-        .call();
-      const global3 = await contract.methods
-        .is_globalMatrix_bought(2, props.address)
-        .call();
-      const global4 = await contract.methods
-        .is_globalMatrix_bought(3, props.address)
-        .call();
-      const global5 = await contract.methods
-        .is_globalMatrix_bought(4, props.address)
-        .call();
-      const global6 = await contract.methods
-        .is_globalMatrix_bought(5, props.address)
-        .call();
-      const global7 = await contract.methods
-        .is_globalMatrix_bought(6, props.address)
-        .call();
-      const global8 = await contract.methods
-        .is_globalMatrix_bought(7, props.address)
-        .call();
-      const global9 = await contract.methods
-        .is_globalMatrix_bought(8, props.address)
-        .call();
-      const global10 = await contract.methods
-        .is_globalMatrix_bought(9, props.address)
-        .call();
 
 
       let user_id = await contract.methods
         .addresstoId(props.address.toString())
         .call();
 
-        alert("object 2");
 
 
 
@@ -259,7 +220,6 @@ const Main = (props) => {
         // const globalMatrix_Refearning = await contract.methods
         // .globalMatrix_RefearningOf(props.address)
         // .call();
-        alert("object 3");
 
       let total_earning = await contract.methods
         .Total_earningOf(props.address)
@@ -282,19 +242,10 @@ const Main = (props) => {
         .get_globalRef_team() 
         .call({ from: props.address.toString() });
 
-      let globalref_perlevel_earning = await contract.methods
-        .get_globalref_perlevel_earning()
-        .call({ from: props.address.toString() });
-
-      let globalref_perlevel_count = await contract.methods
-        .get_globalref_perlevel_count()
-        .call({ from: props.address.toString() });
-
 
         let upliner_id = await contract.methods
         .addresstoId(upliner)
         .call();
-        alert("object 4");
 
 
       set_reg_earning(regfee_earning)
@@ -303,34 +254,17 @@ const Main = (props) => {
       set_globalRef_team(globalRef_team);
 
       set_globalRef_earning(globalRef_earning);
-      set_globalref_perlevel_earning(globalref_perlevel_earning);
-      set_globalref_perlevel_count(globalref_perlevel_count);
+
       set_totalglobal_earning(totalglobal_earning);
       set_total_earning(total_earning);
-      alert("helo it is " + globalRef_earning);
       set_bonus(bonus);
-      // let upliner = await contract.methods.uplinerOf(props.address).call();
       set_level_earning(level_matrix_earning);
       set_paid(fee_paid);
-      set_global_plan1_paid(global1);
-      set_global_plan2_paid(global2);
 
-      set_global_plan3_paid(global3);
-      set_global_plan4_paid(global4);
-      set_global_plan5_paid(global5);
-      set_global_plan6_paid(global6);
-      set_global_plan7_paid(global7);
-      set_global_plan8_paid(global8);
-      set_global_plan9_paid(global9);
-
-      set_global_plan10_paid(global10);
 
       set_userId(user_id)
       set_uplinerId(upliner_id)
-      alert("object 5");
 
-      set_fee(fee1);
-      alert("ref " + params.get("ref"));
       let data = await contract.methods
         .data(0, props.address)
         .call({ from: props.address.toString() });
@@ -380,9 +314,22 @@ const Main = (props) => {
       set_plane10_data(data9);
       set_current_plan(get_Current_plan());
 
-      alert("object 5");
 
+      // const global_paid = await contract.methods
+      // .check_globalPlans_bought()
+      // .call({ from: props.address.toString() });
+                                                            //uncomment it
 
+      // set_global_plan1_paid(global_paid[0]);
+      // set_global_plan2_paid(global_paid[1]);
+      // set_global_plan3_paid(global_paid[2]);
+      // set_global_plan4_paid(global_paid[3]);
+      // set_global_plan5_paid(global_paid[4]);
+      // set_global_plan6_paid(global_paid[5]);
+      // set_global_plan7_paid(global_paid[6]);
+      // set_global_plan8_paid(global_paid[7]);
+      // set_global_plan9_paid(global_paid[8]);
+      // set_global_plan10_paid(global_paid[9]);
 
       let r11 = await contract.methods
         .ref_check(0, props.address, 1)
@@ -391,7 +338,8 @@ const Main = (props) => {
         .ref_check(0, props.address, 2)
         .call({ from: props.address.toString() });
   
-
+        set_r11(r11);
+        set_r12(r12);
 
 
       let r21 = await contract.methods
@@ -401,6 +349,8 @@ const Main = (props) => {
         .ref_check(1, props.address, 2)
         .call({ from: props.address.toString() });
 
+        set_r21(r21);
+        set_r22(r22);
 
 
       let r31 = await contract.methods
@@ -410,7 +360,8 @@ const Main = (props) => {
         .ref_check(2, props.address, 2)
         .call({ from: props.address.toString() });
 
-
+        set_r31(r31);
+        set_r32(r32);
 
       let r41 = await contract.methods
         .ref_check(3, props.address, 1)
@@ -419,6 +370,8 @@ const Main = (props) => {
         .ref_check(3, props.address, 2)
         .call({ from: props.address.toString() });
 
+        set_r41(r41);
+        set_r42(r42);
 
 
       let r51 = await contract.methods
@@ -428,7 +381,8 @@ const Main = (props) => {
         .ref_check(4, props.address, 2)
         .call({ from: props.address.toString() });
 
-
+        set_r51(r51);
+        set_r52(r52);
 
       let r61 = await contract.methods
         .ref_check(5, props.address, 1)
@@ -437,7 +391,8 @@ const Main = (props) => {
         .ref_check(5, props.address, 2)
         .call({ from: props.address.toString() });
 
-
+        set_r61(r61);
+        set_r62(r62);
 
       let r71 = await contract.methods
         .ref_check(6, props.address, 1)
@@ -446,7 +401,8 @@ const Main = (props) => {
         .ref_check(6, props.address, 2)
         .call({ from: props.address.toString() });
 
-
+        set_r71(r71);
+        set_r72(r72);
 
       let r81 = await contract.methods
         .ref_check(7, props.address, 1)
@@ -455,6 +411,8 @@ const Main = (props) => {
         .ref_check(7, props.address, 2)
         .call({ from: props.address.toString() });
 
+        set_r81(r81);
+        set_r82(r82);
 
       let r91 = await contract.methods
         .ref_check(8, props.address, 1)
@@ -464,6 +422,8 @@ const Main = (props) => {
         .call({ from: props.address.toString() });
 
 
+        set_r91(r91);
+        set_r92(r92);
 
       let r101 = await contract.methods
         .ref_check(9, props.address, 1)
@@ -472,28 +432,62 @@ const Main = (props) => {
         .ref_check(9, props.address, 2)
         .call({ from: props.address.toString() });
 
-        
-        set_r11(r11);
-        set_r12(r12);
-        set_r21(r21);
-        set_r22(r22);
-        set_r31(r31);
-        set_r32(r32);
-        set_r41(r41);
-        set_r42(r42);
-        set_r51(r51);
-        set_r52(r52);
-        set_r61(r61);
-        set_r62(r62);
-        set_r71(r71);
-        set_r72(r72);
-        set_r81(r81);
-        set_r82(r82);
-        set_r91(r91);
-        set_r92(r92);
+  
+      const global1 = await contract.methods
+      .is_globalMatrix_bought(0, props.address)
+      .call();
+    const global2 = await contract.methods
+      .is_globalMatrix_bought(1, props.address)
+      .call();
+    const global3 = await contract.methods
+      .is_globalMatrix_bought(2, props.address)
+      .call();
+    const global4 = await contract.methods
+      .is_globalMatrix_bought(3, props.address)
+      .call();
+    const global5 = await contract.methods
+      .is_globalMatrix_bought(4, props.address)
+      .call();
+    const global6 = await contract.methods
+      .is_globalMatrix_bought(5, props.address)
+      .call();
+    const global7 = await contract.methods
+      .is_globalMatrix_bought(6, props.address)
+      .call();
+    const global8 = await contract.methods
+      .is_globalMatrix_bought(7, props.address)
+      .call();
+    const global9 = await contract.methods
+      .is_globalMatrix_bought(8, props.address)
+      .call();
+    const global10 = await contract.methods
+      .is_globalMatrix_bought(9, props.address)
+      .call();
+
+
+
+
+    set_global_plan1_paid(global1);
+    set_global_plan2_paid(global2);
+    set_global_plan3_paid(global3);
+    set_global_plan4_paid(global4);
+    set_global_plan5_paid(global5);
+    set_global_plan6_paid(global6);
+    set_global_plan7_paid(global7);
+    set_global_plan8_paid(global8);
+    set_global_plan9_paid(global9);
+    set_global_plan10_paid(global10);
+
+
+
+
+
+
+
+
+
         set_r101(r101);
         set_r102(r102);
-        alert("object 7");
 
       // const bal = await contract1.methods.balanceOf(accounts[0]).call();
       // set_user_balance(bal);
