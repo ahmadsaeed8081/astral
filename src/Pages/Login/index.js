@@ -63,16 +63,17 @@ async function Sign_out() {
 
  }
 
-
-
-window.onbeforeunload = function (e) {
-  e.preventDefault();
-  // e.returnValue = '';
-    console.log("object reload");
+ window.addEventListener('beforeunload', function (e) {
+  // Check for a reload navigation
+  if (performance.navigation.type === 1) {
+    console.log('Reload detected');
     Sign_out1();
 
+  }
+});
 
-};
+
+
 
  async function Sign_out1() {
   const provider = new WalletConnectProvider({
