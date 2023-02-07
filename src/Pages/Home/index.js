@@ -133,7 +133,6 @@ const Main = (props) => {
      });
      
      try{
-      console.log("sign out");
       await provider.disconnect();
   
      }
@@ -146,16 +145,19 @@ const Main = (props) => {
   useEffect(() => {
     getData();
   }, [props.provider, props.address]);
-  
-    // window.onbeforeunload = function (e) {
-    //   // e.preventDefault();
-    //   // e.returnValue = '';
-    //     console.log("object reload");
-    //     Sign_out1();
+
+
+  if(props.isWalletConnected)
+  {
+    window.onbeforeunload = function (e) {
+      // e.preventDefault();
+      // e.returnValue = '';
+        console.log("object reload");
+        Sign_out1();
     
     
-    // };
-  
+    };
+  }
 
 
 
