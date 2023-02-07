@@ -8,6 +8,7 @@ import {
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { LockIcon } from "../../assets";
+import Loader from "../../components/Loader";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Web3 from "web3";
@@ -20,6 +21,7 @@ import {
 } from "../../../src/components/config";
 
 const Main = (props) => {
+  const [loader, setLoader] = useState(false);
   let plan1_fee = 25;
   let plan2_fee = 50;
   let plan3_fee = 100; // dont forget to change
@@ -33,8 +35,6 @@ const Main = (props) => {
 
   const [activeTab, setActiveTab] = useState("LEVEL");
 
-
-
   const cardList = [{}, {}, {}];
   const [total_earning, set_total_earning] = useState("");
 
@@ -47,7 +47,6 @@ const Main = (props) => {
   const [globalRef_team, set_globalRef_team] = useState([]);
 
   const [globalRef_earning, set_globalRef_earning] = useState([]);
-
 
   const [totalglobal_earning, set_totalglobal_earning] = useState([]);
 
@@ -67,8 +66,6 @@ const Main = (props) => {
   const [is_gloabl_plan8_paid, set_global_plan8_paid] = useState(false);
   const [is_gloabl_plan9_paid, set_global_plan9_paid] = useState(false);
   const [is_gloabl_plan10_paid, set_global_plan10_paid] = useState(false);
-
-
 
   const [reg_earning, set_reg_earning] = useState(false);
 
@@ -118,91 +115,57 @@ const Main = (props) => {
   const [r101, set_r101] = useState(0);
   const [r102, set_r102] = useState(0);
 
-
   useEffect(() => {
     getData();
   }, [props.provider, props.address]);
 
+  function get_Current_plan() {
+    var current_plan;
+    if (!is_paid) {
+      current_plan = "None";
+    } else if (!is_gloabl_plan1_paid) {
+      current_plan = "Level Matrix";
+    } else if (!is_gloabl_plan2_paid) {
+      current_plan = " Global plan 1";
+    } else if (!is_gloabl_plan3_paid) {
+      current_plan = "Global plan 2";
+    } else if (!is_gloabl_plan4_paid) {
+      current_plan = "Global plan 3";
+    } else if (!is_gloabl_plan5_paid) {
+      current_plan = "Global plan 4";
+    } else if (!is_gloabl_plan6_paid) {
+      current_plan = "Global plan 5";
+    } else if (!is_gloabl_plan7_paid) {
+      current_plan = " Global plan 6";
+    } else if (!is_gloabl_plan8_paid) {
+      current_plan = "Global plan 7";
+    } else if (!is_gloabl_plan9_paid) {
+      current_plan = "Global plan 8";
+    } else if (!is_gloabl_plan10_paid) {
+      current_plan = "Global plan 9";
+    } else {
+      current_plan = "Global plan 10";
+    }
 
-
-
-
-
-  function get_Current_plan()
-  {
-     var current_plan;
-      if(!is_paid){
-        current_plan="None";
-      }
-      else if(!is_gloabl_plan1_paid)
-      {
-          current_plan="Level Matrix";
-      }
-      else if(!is_gloabl_plan2_paid){
-
-          current_plan=" Global plan 1";
-
-      }
-      else if(!is_gloabl_plan3_paid){
-          current_plan="Global plan 2";
-
-      }
-      else if(!is_gloabl_plan4_paid){
-          current_plan="Global plan 3";
-
-      }
-      else if(!is_gloabl_plan5_paid){
-          current_plan="Global plan 4";
-
-      }
-      else if(!is_gloabl_plan6_paid){
-          current_plan="Global plan 5";
-
-      }
-      else if(!is_gloabl_plan7_paid){
-          current_plan=" Global plan 6";
-
-      }
-      else if(!is_gloabl_plan8_paid){
-          current_plan="Global plan 7";
-
-      }
-      else if(!is_gloabl_plan9_paid){
-          current_plan="Global plan 8";
-
-      }
-      else if(!is_gloabl_plan10_paid){
-          current_plan="Global plan 9";
-      }
-      else{
-          current_plan="Global plan 10";
-      }
-
-      return current_plan;
+    return current_plan;
   }
-
-
 
   async function getData() {
     if (!props.isWalletConnected) {
       return;
     }
     try {
+      setLoader(true);
+      console.log("object"+ loader);
       const web3 = new Web3(props.provider);
 
-
       const contract = new web3.eth.Contract(cont_abi, cont_address);
-    
 
       const fee_paid = await contract.methods.is_paid(props.address).call();
-
 
       let user_id = await contract.methods
         .addresstoId(props.address.toString())
         .call();
-
-
-
 
       let level_matrix_earning = await contract.methods
         .levelMatrix_earningOf(props.address)
@@ -212,14 +175,11 @@ const Main = (props) => {
 
       let bonus = await contract.methods
         .get_bonus()
-        .call({from:props.address.toString() });
+        .call({ from: props.address.toString() });
 
-        let regfee_earning = await contract.methods
+      let regfee_earning = await contract.methods
         .regfee_earningOf(props.address)
         .call();
-        // const globalMatrix_Refearning = await contract.methods
-        // .globalMatrix_RefearningOf(props.address)
-        // .call();
 
       let total_earning = await contract.methods
         .Total_earningOf(props.address)
@@ -238,17 +198,13 @@ const Main = (props) => {
         .get_globalRef_earning()
         .call({ from: props.address.toString() });
 
-        let globalRef_team = await contract.methods
-        .get_globalRef_team() 
+      let globalRef_team = await contract.methods
+        .get_globalRef_team()
         .call({ from: props.address.toString() });
 
+      let upliner_id = await contract.methods.addresstoId(upliner).call();
 
-        let upliner_id = await contract.methods
-        .addresstoId(upliner)
-        .call();
-
-
-      set_reg_earning(regfee_earning)
+      set_reg_earning(regfee_earning);
       set_direct_ref(direct_ref);
       set_globalRef_direct(globalRef_direct);
       set_globalRef_team(globalRef_team);
@@ -261,9 +217,8 @@ const Main = (props) => {
       set_level_earning(level_matrix_earning);
       set_paid(fee_paid);
 
-
-      set_userId(user_id)
-      set_uplinerId(upliner_id)
+      set_userId(user_id);
+      set_uplinerId(upliner_id);
 
       let data = await contract.methods
         .data(0, props.address)
@@ -313,122 +268,43 @@ const Main = (props) => {
         .call({ from: props.address.toString() });
       set_plane10_data(data9);
 
-
-
-
-
       let ref_check = await contract.methods
-      .get_checkRef()
-      .call({ from: props.address.toString() });
+        .get_checkRef()
+        .call({ from: props.address.toString() });
 
+      set_r11(ref_check[0]);
+      set_r12(ref_check[1]);
 
-      // let r11 = await contract.methods
-      //   .ref_check(0, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r12 = await contract.methods
-      //   .ref_check(0, props.address, 2)
-      //   .call({ from: props.address.toString() });
-  
-        set_r11(ref_check[0]);
-        set_r12(ref_check[1]);
+      set_r21(ref_check[2]);
+      set_r22(ref_check[3]);
 
+      set_r31(ref_check[4]);
+      set_r32(ref_check[5]);
 
-      // let r21 = await contract.methods
-      //   .ref_check(1, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r22 = await contract.methods
-      //   .ref_check(1, props.address, 2)
-      //   .call({ from: props.address.toString() });
+      set_r41(ref_check[6]);
+      set_r42(ref_check[7]);
 
-        set_r21(ref_check[2]);
-        set_r22(ref_check[3]);
+      set_r51(ref_check[8]);
+      set_r52(ref_check[9]);
 
+      set_r61(ref_check[10]);
+      set_r62(ref_check[11]);
 
-      // let r31 = await contract.methods
-      //   .ref_check(2, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r32 = await contract.methods
-      //   .ref_check(2, props.address, 2)
-      //   .call({ from: props.address.toString() });
+      set_r71(ref_check[12]);
+      set_r72(ref_check[13]);
 
-        set_r31(ref_check[4]);
-        set_r32(ref_check[5]);
+      set_r81(ref_check[14]);
+      set_r82(ref_check[15]);
 
-      // let r41 = await contract.methods
-      //   .ref_check(3, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r42 = await contract.methods
-      //   .ref_check(3, props.address, 2)
-      //   .call({ from: props.address.toString() });
+      set_r91(ref_check[16]);
+      set_r92(ref_check[17]);
 
-        set_r41(ref_check[6]);
-        set_r42(ref_check[7]);
-
-
-      // let r51 = await contract.methods
-      //   .ref_check(4, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r52 = await contract.methods
-      //   .ref_check(4, props.address, 2)
-      //   .call({ from: props.address.toString() });
-
-        set_r51(ref_check[8]);
-        set_r52(ref_check[9]);
-
-      // let r61 = await contract.methods
-      //   .ref_check(5, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r62 = await contract.methods
-      //   .ref_check(5, props.address, 2)
-      //   .call({ from: props.address.toString() });
-
-        set_r61(ref_check[10]);
-        set_r62(ref_check[11]);
-
-      // let r71 = await contract.methods
-      //   .ref_check(6, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r72 = await contract.methods
-      //   .ref_check(6, props.address, 2)
-      //   .call({ from: props.address.toString() });
-
-        set_r71(ref_check[12]);
-        set_r72(ref_check[13]);
-
-      // let r81 = await contract.methods
-      //   .ref_check(7, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r82 = await contract.methods
-      //   .ref_check(7, props.address, 2)
-      //   .call({ from: props.address.toString() });
-
-        set_r81(ref_check[14]);
-        set_r82(ref_check[15]);
-
-      // let r91 = await contract.methods
-      //   .ref_check(8, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r92 = await contract.methods
-      //   .ref_check(8, props.address, 2)
-      //   .call({ from: props.address.toString() });
-
-
-        set_r91(ref_check[16]);
-        set_r92(ref_check[17]);
-
-      // let r101 = await contract.methods
-      //   .ref_check(9, props.address, 1)
-      //   .call({ from: props.address.toString() });
-      // let r102 = await contract.methods
-      //   .ref_check(9, props.address, 2)
-      //   .call({ from: props.address.toString() });
       set_r101(ref_check[18]);
       set_r102(ref_check[19]);
-  
 
       const global_paid = await contract.methods
-      .check_globalPlans_bought()
-      .call({ from: props.address.toString() });
+        .check_globalPlans_bought()
+        .call({ from: props.address.toString() });
 
       set_global_plan1_paid(global_paid[0]);
       set_global_plan2_paid(global_paid[1]);
@@ -440,6 +316,8 @@ const Main = (props) => {
       set_global_plan8_paid(global_paid[7]);
       set_global_plan9_paid(global_paid[8]);
       set_global_plan10_paid(global_paid[9]);
+
+
 
 
       var current_plan;
@@ -493,72 +371,15 @@ const Main = (props) => {
 
       set_current_plan(current_plan);
 
-      console.log("get data end");
-    //   const global1 = await contract.methods
-    //   .is_globalMatrix_bought(0, props.address)
-    //   .call();
-    // const global2 = await contract.methods
-    //   .is_globalMatrix_bought(1, props.address)
-    //   .call();
-    // const global3 = await contract.methods
-    //   .is_globalMatrix_bought(2, props.address)
-    //   .call();
-    // const global4 = await contract.methods
-    //   .is_globalMatrix_bought(3, props.address)
-    //   .call();
-    // const global5 = await contract.methods
-    //   .is_globalMatrix_bought(4, props.address)
-    //   .call();
-    // const global6 = await contract.methods
-    //   .is_globalMatrix_bought(5, props.address)
-    //   .call();
-    // const global7 = await contract.methods
-    //   .is_globalMatrix_bought(6, props.address)
-    //   .call();
-    // const global8 = await contract.methods
-    //   .is_globalMatrix_bought(7, props.address)
-    //   .call();
-    // const global9 = await contract.methods
-    //   .is_globalMatrix_bought(8, props.address)
-    //   .call();
-    // const global10 = await contract.methods
-    //   .is_globalMatrix_bought(9, props.address)
-    //   .call();
 
 
-
-
-    // set_global_plan1_paid(global1);
-    // set_global_plan2_paid(global2);
-    // set_global_plan3_paid(global3);
-    // set_global_plan4_paid(global4);
-    // set_global_plan5_paid(global5);
-    // set_global_plan6_paid(global6);
-    // set_global_plan7_paid(global7);
-    // set_global_plan8_paid(global8);
-    // set_global_plan9_paid(global9);
-    // set_global_plan10_paid(global10);
-
-
-
-
-
-
-
-
-
-
-
-      // const bal = await contract1.methods.balanceOf(accounts[0]).call();
-      // set_user_balance(bal);
+      setLoader(false);
     } catch (error) {
       // Catch any errors for any of the above operations.
-
+      setLoader(false);
       console.error(error);
     }
   }
-
-  
 
   async function active_globalmatrix(plan_no) {
     if (!props.isWalletConnected) {
@@ -833,23 +654,20 @@ const Main = (props) => {
     }
   }
 
-
-
-
-
-
-
   return (
     <>
       {/* set_user={set_user} search_Data={search_Data} */}
-      {!props.itsview?(
-        <Header  set_user={props.set_user} search_Data={props.search_Data} address={props.address} provider={props.provider}/>
-
-      ):(null)}
+      {!props.itsview ? (
+        <Header
+          set_user={props.set_user}
+          search_Data={props.search_Data}
+          address={props.address}
+          provider={props.provider}
+        />
+      ) : null}
       <div className="home-page flex flex-col">
         <div className="wrap wrapWidth">
           <div className="info-wrapper">
-
             <div className="info-card flex flex-col items-center">
               <div className="icons flex items-center justify-center relative">
                 <img src="./images/ellips.png" className="ellips" />
@@ -917,7 +735,6 @@ const Main = (props) => {
               </div>
             </div>
 
-
             <div className="info-card flex flex-col items-center">
               <div className="icons flex items-center justify-center relative">
                 <img src="./images/ellips.png" className="ellips" />
@@ -930,7 +747,6 @@ const Main = (props) => {
                 <div className="btn button">{current_plan}</div>
               </div>
             </div>
-
 
             {/* <div className="info-card flex flex-col items-center">
               <div className="icons flex items-center justify-center relative">
@@ -955,13 +771,13 @@ const Main = (props) => {
               </div>
               <div className="card-action flex items-center justify-between">
                 <div className="name">
-                https://crowdmatrix.org/?ref=
-                  {props.isWalletConnected
-                    ? userId
-                    : null}
+                  https://crowdmatrix.org/?ref=
+                  {props.isWalletConnected ? userId : null}
                 </div>
 
-                <CopyToClipboard text={"https://crowdmatrix.org/?ref=" + userId}>
+                <CopyToClipboard
+                  text={"https://crowdmatrix.org/?ref=" + userId}
+                >
                   <div className="icon flex items-center justify-center cursor-pointer">
                     <div className="btn button">Copy Link</div>
                   </div>
@@ -977,10 +793,8 @@ const Main = (props) => {
                 <div className="name">My Upliner</div>
               </div>
               <div className="card-action flex items-center justify-between">
-                <div className="name">
-                  {uplinerId}
-                </div>
-                
+                <div className="name">{uplinerId}</div>
+
                 <CopyToClipboard text={uplinerId}>
                   <div className="icon flex items-center justify-center cursor-pointer">
                     <div className="btn button">Copy</div>
@@ -1090,29 +904,27 @@ const Main = (props) => {
                         </div>
                       </div>
                     </div>
-                    
-                      
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            {/* <div className="icon flex items-center justify-center">
+
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        {/* <div className="icon flex items-center justify-center">
                             <PartnerIcon />
                           </div> */}
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane1_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane1_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane1_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane1_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-                    
                   </div>
 
                   <div className="plan-card flex flex-col">
@@ -1156,24 +968,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane2_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane2_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane2_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane2_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
 
                   <div className="plan-card flex flex-col">
@@ -1217,24 +1028,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane3_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane3_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane3_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane3_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
 
                   {/* card 4 */}
@@ -1280,25 +1090,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane4_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane4_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane4_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane4_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
 
                   {/* card 5 */}
@@ -1344,25 +1152,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane5_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane5_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane5_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane5_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
                   <div className="plan-card flex flex-col">
                     <div className="box-hdr flex items-center">
@@ -1405,25 +1211,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane6_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane6_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane6_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane6_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
                   <div className="plan-card flex flex-col">
                     <div className="box-hdr flex items-center">
@@ -1466,24 +1270,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane7_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane7_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane7_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane7_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
                   <div className="plan-card flex flex-col">
                     <div className="box-hdr flex items-center">
@@ -1526,25 +1329,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane8_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane8_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane8_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane8_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
                   <div className="plan-card flex flex-col">
                     <div className="box-hdr flex items-center">
@@ -1587,25 +1388,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane9_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane9_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane9_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane9_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
-
                   </div>
                   <div className="plan-card flex flex-col">
                     <div className="box-hdr flex items-center">
@@ -1648,25 +1447,23 @@ const Main = (props) => {
                       </div>
                     </div>
 
-
-                        <div className="info-sec flex items-center justify-between">
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Partners</div>
-                            <div className="val">{plane10_data[3]}</div>
-                          </div>
-                          <div className="info-item flex flex-col">
-                            <div className="lbl">Cycles</div>
-                            <div className="val">{plane10_data[2]}</div>
-                          </div>
-                        </div>
-                        {/* <div className="action flex items-center justify-center">
+                    <div className="info-sec flex items-center justify-between">
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Partners</div>
+                        <div className="val">{plane10_data[3]}</div>
+                      </div>
+                      <div className="info-item flex flex-col">
+                        <div className="lbl">Cycles</div>
+                        <div className="val">{plane10_data[2]}</div>
+                      </div>
+                    </div>
+                    {/* <div className="action flex items-center justify-center">
                           <div className="btn " onClick={(e)=>setOpen1(true)}>View details </div>
                         </div>
 
                         <Modal open={open1} onClose={() => setOpen1(false)}>
                             <CardDetail plan1_data={plane1_data} r11={r11} r12={r12} r13={r13} plan_no={1} plan_fee={2} setOpen={setOpen1} />
                         </Modal> */}
- 
                   </div>
                 </div>
               </div>
@@ -1683,10 +1480,10 @@ const Main = (props) => {
                       </div>
                       <div className="action flex items-center justify-center">
                         {/* <div className="btn button" onClick={pay _fee}>Unlock Plan Now</div> */}
-                      {/* </div>
+                {/* </div>
                     </div>
                   </div> */}
-                {/* ) : null} */} 
+                {/* ) : null} */}
 
                 <div className="prices-wrapper">
                   <div className="price-card flex flex-col">
@@ -1708,28 +1505,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[0]}
+                          Total Team {globalRef_team[0]}
                         </div>
                       </div>
                     </div>
-                {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan1_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("0")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan1_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("0")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PRO</div>
@@ -1754,24 +1551,24 @@ const Main = (props) => {
                         </div>
                       </div>
                     </div>
-                {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan2_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("1")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                </>
-                  ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan2_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("1")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -1796,24 +1593,24 @@ const Main = (props) => {
                         </div>
                       </div>
                     </div>
-            {!props.itsview?(
-                <>           
-                    {!is_gloabl_plan3_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("2")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan3_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("2")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -1834,28 +1631,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[3]}
+                          Total Team {globalRef_team[3]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan4_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("3")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan4_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("3")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -1876,28 +1673,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[4]}
+                          Total Team {globalRef_team[4]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan5_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("4")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan5_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("4")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
 
                   <div className="price-card flex flex-col">
@@ -1919,28 +1716,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[5]}
+                          Total Team {globalRef_team[5]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan6_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("5")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan6_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("5")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -1961,28 +1758,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[6]}
+                          Total Team {globalRef_team[6]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan7_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("6")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan7_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("6")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -2003,28 +1800,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[7]}
+                          Total Team {globalRef_team[7]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan8_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("7")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan8_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("7")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -2045,28 +1842,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[8]}
+                          Total Team {globalRef_team[8]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan9_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("8")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan9_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("8")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                   <div className="price-card flex flex-col">
                     <div className="price-tag">PREMIUM</div>
@@ -2087,28 +1884,28 @@ const Main = (props) => {
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                         Total Team {globalRef_team[9]}
+                          Total Team {globalRef_team[9]}
                         </div>
                       </div>
                     </div>
-                    {!props.itsview?(
-                <> 
-                    {!is_gloabl_plan10_paid ? (
-                      <div className="action flex items-center justify-center">
-                        <div
-                          className="btn-buy button"
-                          onClick={() => active_globalmatrix("9")}
-                        >
-                          Buy Now
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="action flex items-center justify-center">
-                        <div className="btn-buy button">Activated</div>
-                      </div>
-                    )}
-                    </>
-                    ):(null)}
+                    {!props.itsview ? (
+                      <>
+                        {!is_gloabl_plan10_paid ? (
+                          <div className="action flex items-center justify-center">
+                            <div
+                              className="btn-buy button"
+                              onClick={() => active_globalmatrix("9")}
+                            >
+                              Buy Now
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="action flex items-center justify-center">
+                            <div className="btn-buy button">Activated</div>
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -2157,6 +1954,7 @@ const Main = (props) => {
           )} */}
         </div>
       </div>
+      {loader && <Loader />}
       <Footer />
     </>
   );
