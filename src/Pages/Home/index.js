@@ -275,12 +275,9 @@ const Main = (props) => {
     try {
       const web3 = new Web3(props.provider);
 
-      const accounts = await web3.eth.getAccounts();
-
-      const networkId = await web3.eth.net.getId();
 
       const contract = new web3.eth.Contract(cont_abi, cont_address);
-      const contract1 = new web3.eth.Contract(tokenABI, Token_address);
+    
 
       const fee1 = await contract.methods.reg_fee().call();
       const fee_paid = await contract.methods.is_paid(props.address).call();
@@ -320,19 +317,19 @@ const Main = (props) => {
         .is_globalMatrix_bought(9, props.address)
         .call();
 
-      console.log("its get data");
+      alert("its get data");
 
       let user_id = await contract.methods
         .addresstoId(props.address.toString())
         .call();
 
-        console.log("its get data1");
+        alert("its get data1");
 
 
       let level_matrix_earning = await contract.methods
         .levelMatrix_earningOf(props.address)
         .call();
-        console.log("its get data2");
+        alert("its get data2");
 
       let upliner = await contract.methods.uplinerOf(props.address).call();
 
@@ -385,6 +382,7 @@ const Main = (props) => {
         .call();
         console.log("its get data7");
 
+        alert("its get data9");
 
       set_reg_earning(regfee_earning)
       set_direct_ref(direct_ref);
@@ -487,9 +485,7 @@ const Main = (props) => {
         .call({ from: props.address.toString() });
       console.log("it is r11 " + r11);
 
-      set_r11(r11);
-      set_r12(r12);
-      set_r13(r13);
+
 
       let r21 = await contract.methods
         .ref_check(1, props.address, 1)
@@ -501,9 +497,6 @@ const Main = (props) => {
         .ref_check(1, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r21(r21);
-      set_r22(r22);
-      set_r23(r23);
 
       let r31 = await contract.methods
         .ref_check(2, props.address, 1)
@@ -515,9 +508,6 @@ const Main = (props) => {
         .ref_check(2, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r31(r31);
-      set_r32(r32);
-      set_r33(r33);
 
       let r41 = await contract.methods
         .ref_check(3, props.address, 1)
@@ -529,9 +519,6 @@ const Main = (props) => {
         .ref_check(3, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r41(r41);
-      set_r42(r42);
-      set_r43(r43);
 
       let r51 = await contract.methods
         .ref_check(4, props.address, 1)
@@ -543,9 +530,6 @@ const Main = (props) => {
         .ref_check(4, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r51(r51);
-      set_r52(r52);
-      set_r53(r53);
 
       let r61 = await contract.methods
         .ref_check(5, props.address, 1)
@@ -557,9 +541,6 @@ const Main = (props) => {
         .ref_check(5, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r61(r61);
-      set_r62(r62);
-      set_r63(r63);
 
       let r71 = await contract.methods
         .ref_check(6, props.address, 1)
@@ -571,9 +552,6 @@ const Main = (props) => {
         .ref_check(6, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r71(r71);
-      set_r72(r72);
-      set_r73(r73);
 
       let r81 = await contract.methods
         .ref_check(7, props.address, 1)
@@ -585,9 +563,6 @@ const Main = (props) => {
         .ref_check(7, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r81(r81);
-      set_r82(r82);
-      set_r83(r83);
       let r91 = await contract.methods
         .ref_check(8, props.address, 1)
         .call({ from: props.address.toString() });
@@ -598,9 +573,6 @@ const Main = (props) => {
         .ref_check(8, props.address, 3)
         .call({ from: props.address.toString() });
 
-      set_r91(r91);
-      set_r92(r92);
-      set_r93(r93);
 
       let r101 = await contract.methods
         .ref_check(9, props.address, 1)
@@ -611,10 +583,37 @@ const Main = (props) => {
       let r103 = await contract.methods
         .ref_check(9, props.address, 3)
         .call({ from: props.address.toString() });
-
-      set_r101(r101);
-      set_r102(r102);
-      set_r103(r103);
+        
+        set_r11(r11);
+        set_r12(r12);
+        set_r13(r13);
+        set_r21(r21);
+        set_r22(r22);
+        set_r23(r23);
+        set_r31(r31);
+        set_r32(r32);
+        set_r33(r33);
+        set_r41(r41);
+        set_r42(r42);
+        set_r43(r43);
+        set_r51(r51);
+        set_r52(r52);
+        set_r53(r53);
+        set_r61(r61);
+        set_r62(r62);
+        set_r63(r63);
+        set_r71(r71);
+        set_r72(r72);
+        set_r73(r73);
+        set_r81(r81);
+        set_r82(r82);
+        set_r83(r83);
+        set_r91(r91);
+        set_r92(r92);
+        set_r93(r93);
+        set_r101(r101);
+        set_r102(r102);
+        set_r103(r103);
 
       // const bal = await contract1.methods.balanceOf(accounts[0]).call();
       // set_user_balance(bal);
@@ -625,55 +624,7 @@ const Main = (props) => {
     }
   }
 
-  async function pay_fee() {
-    console.log("hello pay");
-    if (!props.isWalletConnected) {
-      return;
-    }
-    console.log("hello pay1");
-    let levelMatrix_fee = 60;
-
-    let _ref = ref;
-    console.log("this is ref " + ref);
-    if (ref == null) {
-      _ref = "0x0000000000000000000000000000000000000000";
-    }
-    try {
-      const web3 = new Web3(props.provider);
-
-      const accounts = await web3.eth.getAccounts();
-
-      const networkId = await web3.eth.net.getId();
-
-      const contract = new web3.eth.Contract(cont_abi, cont_address);
-      const contract1 = new web3.eth.Contract(tokenABI, Token_address);
-
-      if (fee == "") {
-        return;
-      } else if (Number(levelMatrix_fee) > Number(props.balance)) {
-        alert("You dont have enough busd");
-        return;
-      }
-
-      levelMatrix_fee = levelMatrix_fee * 10 ** 18;
-      console.log(typeof levelMatrix_fee + "   " + levelMatrix_fee);
-      console.log("this is ref1 " + _ref);
-
-      await contract1.methods
-        .approve(cont_address, levelMatrix_fee.toString())
-        .send({ from: accounts[0] });
-      const result = await contract.methods
-        .level_matrix(_ref)
-        .send({ from: accounts[0] });
-      if (result) {
-        getData();
-      }
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-
-      console.error(error);
-    }
-  }
+  
 
   async function active_globalmatrix(plan_no) {
     if (!props.isWalletConnected) {
