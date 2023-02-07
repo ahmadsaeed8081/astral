@@ -38,6 +38,10 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
+  if(!isWalletConnected)
+  {
+    Sign_out1();
+  }
   // Sign_out1();
   set_refId(params.get("ref"));
 })

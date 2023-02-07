@@ -133,6 +133,7 @@ const Main = (props) => {
      });
      
      try{
+      console.log("sign out");
       await provider.disconnect();
   
      }
