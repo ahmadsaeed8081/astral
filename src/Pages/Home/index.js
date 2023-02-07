@@ -312,7 +312,6 @@ const Main = (props) => {
         .data(9, props.address)
         .call({ from: props.address.toString() });
       set_plane10_data(data9);
-      set_current_plan(get_Current_plan());
 
 
 
@@ -441,6 +440,58 @@ const Main = (props) => {
       set_global_plan8_paid(global_paid[7]);
       set_global_plan9_paid(global_paid[8]);
       set_global_plan10_paid(global_paid[9]);
+
+
+      var current_plan;
+      if(!fee_paid){
+        current_plan="None";
+      }
+      else if(!global_paid[0])
+      {
+          current_plan="Level Matrix";
+      }
+      else if(!global_paid[1]){
+
+          current_plan=" Global plan 1";
+
+      }
+      else if(!global_paid[2]){
+          current_plan="Global plan 2";
+
+      }
+      else if(!global_paid[3]){
+          current_plan="Global plan 3";
+
+      }
+      else if(!global_paid[4]){
+          current_plan="Global plan 4";
+
+      }
+      else if(!global_paid[5]){
+          current_plan="Global plan 5";
+
+      }
+      else if(!global_paid[6]){
+          current_plan=" Global plan 6";
+
+      }
+      else if(!global_paid[7]){
+          current_plan="Global plan 7";
+
+      }
+      else if(!global_paid[8]){
+          current_plan="Global plan 8";
+
+      }
+      else if(!global_paid[9]){
+          current_plan="Global plan 9";
+      }
+      else{
+          current_plan="Global plan 10";
+      }
+
+
+      set_current_plan(current_plan);
 
       console.log("get data end");
     //   const global1 = await contract.methods
