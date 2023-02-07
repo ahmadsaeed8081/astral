@@ -148,15 +148,15 @@ const Main = (props) => {
   }, [props.provider, props.address]);
 
 
-  if(props.isWalletConnected)
-  {
+  // if(props.isWalletConnected)
+  // {
 
-    window.addEventListener('beforeunload', function (e) {
-      // Check for a reload navigation
-      if (performance.navigation.type === 1) {
-        Sign_out1();
-  }
-    });
+  //   window.addEventListener('beforeunload', function (e) {
+  //     // Check for a reload navigation
+  //     if (performance.navigation.type === 1) {
+  //       Sign_out1();
+  // }
+  //   });
     // window.onbeforeunload = function (e) {
     //   // e.preventDefault();
     //   // e.returnValue = '';
