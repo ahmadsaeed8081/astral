@@ -38,7 +38,7 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
-  if(!isWalletConnected)
+  if(provider==null)
   {
     Sign_out1();
   }
