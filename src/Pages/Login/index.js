@@ -38,7 +38,6 @@ const Login = (props) => {
   const params = new URLSearchParams(location.search);
 
 useEffect( ()=>{
-
   // Sign_out1();
   set_refId(params.get("ref"));
 })
@@ -66,7 +65,14 @@ async function Sign_out() {
 
 
 
-// s
+window.onbeforeunload = function (e) {
+  e.preventDefault();
+  // e.returnValue = '';
+    console.log("object reload");
+    Sign_out1();
+
+
+};
 
  async function Sign_out1() {
   const provider = new WalletConnectProvider({
