@@ -904,13 +904,13 @@ const Main = (props) => {
               </div>
               <div className="card-action flex items-center justify-between">
                 <div className="name">
-                https://crowdastral1.vercel.app/?ref=
+                https://crowdmatrix.org/?ref=
                   {props.isWalletConnected
                     ? userId
                     : null}
                 </div>
 
-                <CopyToClipboard text={"https://crowdastral1.vercel.app/?ref=" + userId}>
+                <CopyToClipboard text={"https://crowdmatrix.org/?ref=" + userId}>
                   <div className="icon flex items-center justify-center cursor-pointer">
                     <div className="btn button">Copy Link</div>
                   </div>
