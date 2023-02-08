@@ -645,7 +645,7 @@ const Main = (props) => {
               </div>
               <div className="card-name flex items-center justify-center flex-col">
                 <div className="name">Total Earnings</div>
-                <div className="amount">${total_earning / 10 ** 18}</div>
+                <div className="amount">${total_earning / 10 ** 18 }</div>
               </div>
             </div>
             <div className="info-card flex flex-col items-center">
@@ -687,7 +687,7 @@ const Main = (props) => {
               <div className="card-name flex items-center justify-center flex-col">
                 <div className="name">level Matrix Earning</div>
                 <div className="amount">
-                  ${(Number(level_earning) / 10 ** 18 )+ (Number(bonus) / 10 ** 18)}
+                  ${Number(level_earning) / 10 ** 18 }
                 </div>
               </div>
             </div>

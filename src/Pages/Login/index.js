@@ -435,7 +435,7 @@ useEffect( ()=>{
             <div className="login-desc">For view account ID</div>
             <input
               type="text"
-              placeholder="view account ID or BNB wallet"
+              placeholder="Enter account ID"
               className="txt"
               value={viewAddress}
               onChange={(e) => {
@@ -456,7 +456,7 @@ useEffect( ()=>{
                 Fetch Account
               </button> */}
             </div>
-            <div className="login-desc">FOR REGISTERATION</div>
+            <div className="login-desc">FOR REGISTRATION</div>
             <input type="text" placeholder="REGISTER WITH US" className="txt" readOnly value={refId}/>
             <div className="action flex items-center justify-center">
               <button className="btn button" onClick={(e) => handleLogin(1)}>Register</button>

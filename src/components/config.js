@@ -2,6 +2,9 @@ export const cont_address="0x8CC1ff8C0E2e76271465Ad1A184892Db87F7F90B";
 export const Token_address="0x51a61EC45a849360580Daaa52b1a30D699D1BB32";
 export const nft_address="0x58C0E7eA9C01B6D9F91FaE8ec891a94c9fFE7539";
 
+// export const cont_address="";
+// export const Token_address="0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
+// export const nft_address="0x58C0E7eA9C01B6D9F91FaE8ec891a94c9fFE7539";
 
 export const cont_abi=[
 	{
@@ -664,6 +667,19 @@ export const cont_abi=[
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
