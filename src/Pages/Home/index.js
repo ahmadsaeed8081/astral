@@ -357,12 +357,26 @@ const Main = (props) => {
     }
 
     try {
+
+      let plan1_fee = 25;
+      let plan2_fee = 50;
+      let plan3_fee = 100; // dont forget to change
+      let plan4_fee = 200;
+      let plan5_fee = 400;
+      let plan6_fee = 800; // dont forget to change
+      let plan7_fee = 1600;
+      let plan8_fee = 3200;
+      let plan9_fee = 6400; // dont forget to change
+      let plan10_fee = 12800;
+
+
       const web3 = new Web3(props.provider);
 
       const accounts = await web3.eth.getAccounts();
 
       const contract = new web3.eth.Contract(cont_abi, cont_address);
       const contract1 = new web3.eth.Contract(tokenABI, Token_address);
+
       const curr_bal = props.balance;
       if (plan_no == "0") {
         if (!is_paid) {
@@ -389,7 +403,7 @@ const Main = (props) => {
           alert("You have to pay the gas fee first");
           return;
         } else if (Number(curr_bal) < Number(plan2_fee)) {
-          alert("You dont have enough balance to buy this plan");
+          alert("You dont have enough balance to buy this plan "+ curr_bal+ "jjk "+plan2_fee);
           return;
         } else if (is_gloabl_plan1_paid == false) {
           alert("You have to buy the previous plan first");

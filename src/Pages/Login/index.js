@@ -152,7 +152,7 @@ useEffect( ()=>{
           if (Number(levelMatrix_fee) > Number(balance))
            {
 
-              alert("You dont have enough busd");
+              alert("You dont have enough DAI");
               return;
             }
 
@@ -322,7 +322,7 @@ useEffect( ()=>{
            {
             await provider.disconnect();
 
-              alert("You dont have enough busd");
+              alert("You dont have enough DAI");
               return;
             }
 
