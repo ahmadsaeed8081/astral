@@ -31,9 +31,9 @@ const Header = (props) => {
   async function Sign_out() {
    const provider = new WalletConnectProvider({
       rpc: {
-        56:"https://bsc-dataseed1.binance.org/"
+        137:"https://polygon-mainnet.g.alchemy.com/v2/bf3cnZO2AQyu_Kv4eBx6uI0Slhs5GhMv"
       },
-      chainId: 56,
+      chainId: 137,
     });
     try {
       await provider.disconnect();
@@ -49,8 +49,8 @@ const Header = (props) => {
     let web3;
     let accounts;
 
-    const NETWORK_ID = "56";
-    const NETWORK_ID_hex = "0x38";
+    const NETWORK_ID = "137";
+    const NETWORK_ID_hex = "0x89";
     // const NETWORK_ID = "80001";
     // const NETWORK_ID_hex = "0x13881";
     set_clicked(true);
@@ -92,9 +92,9 @@ const Header = (props) => {
       //trust 1Wallet
       provider = new WalletConnectProvider({
         rpc: {
-          56:"https://bsc-dataseed1.binance.org/"
+          137:"https://polygon-mainnet.g.alchemy.com/v2/bf3cnZO2AQyu_Kv4eBx6uI0Slhs5GhMv"
         },
-        chainId: 56,
+        chainId: 137,
       });
 
       console.log(provider);
@@ -126,10 +126,9 @@ const Header = (props) => {
       //Wallet connect
       provider = new WalletConnectProvider({
         rpc: {
-          // 137: "https://polygon-mainnet.g.alchemy.com/v2/eRdxPlEv3QpMS-1nPDFkjtO-qDmurAoF",
-          56:"https://bsc-dataseed1.binance.org/"
+          137:"https://polygon-mainnet.g.alchemy.com/v2/bf3cnZO2AQyu_Kv4eBx6uI0Slhs5GhMv"
         },
-        chainId: 56,
+        chainId: 137,
       });
       await provider.enable();
 

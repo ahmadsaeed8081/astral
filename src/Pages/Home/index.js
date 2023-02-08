@@ -300,42 +300,42 @@ const Main = (props) => {
       }
       else if(!global_paid[1]){
 
-          current_plan=" Global plan 1";
+          current_plan=" Slot 1";
 
       }
       else if(!global_paid[2]){
-          current_plan="Global plan 2";
+          current_plan="Slot 2";
 
       }
       else if(!global_paid[3]){
-          current_plan="Global plan 3";
+          current_plan="Slot 3";
 
       }
       else if(!global_paid[4]){
-          current_plan="Global plan 4";
+          current_plan="Slot 4";
 
       }
       else if(!global_paid[5]){
-          current_plan="Global plan 5";
+          current_plan="Slot 5";
 
       }
       else if(!global_paid[6]){
-          current_plan=" Global plan 6";
+          current_plan=" Slot 6";
 
       }
       else if(!global_paid[7]){
-          current_plan="Global plan 7";
+          current_plan="Slot 7";
 
       }
       else if(!global_paid[8]){
-          current_plan="Global plan 8";
+          current_plan="Slot 8";
 
       }
       else if(!global_paid[9]){
-          current_plan="Global plan 9";
+          current_plan="Slot 9";
       }
       else{
-          current_plan="Global plan 10";
+          current_plan="Slot 10";
       }
 
 
@@ -687,7 +687,7 @@ const Main = (props) => {
               <div className="card-name flex items-center justify-center flex-col">
                 <div className="name">level Matrix Earning</div>
                 <div className="amount">
-                  ${Number(level_earning) / 10 ** 18}
+                  ${(Number(level_earning) / 10 ** 18 )+ (Number(bonus) / 10 ** 18)}
                 </div>
               </div>
             </div>
@@ -778,7 +778,7 @@ const Main = (props) => {
                 <img src="./images/icon2.svg" className="icon absolute" />
               </div>
               <div className="card-name flex items-center justify-center flex-col">
-                <div className="name">Global Bonus</div>
+                <div className="name">Global Spillovers</div>
                 <div className="amount">${Number(bonus) / 10 ** 18}</div>
               </div>
             </div>
@@ -788,7 +788,7 @@ const Main = (props) => {
                 <img src="./images/icon2.svg" className="icon absolute" />
               </div>
               <div className="card-name flex items-center justify-center flex-col">
-                <div className="name">Id Activation</div>
+                <div className="name">Registration Earning</div>
                 <div className="amount">${Number(reg_earning) / 10 ** 18}</div>
               </div>
             </div>
@@ -1457,27 +1457,27 @@ const Main = (props) => {
 
                 <div className="prices-wrapper">
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">Plan 1</div>
+                    <div className="price-tag">Slot 1</div>
                     <div className="price-amount">{plan1_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs{globalRef_direct[0]}
+                          No. of Directs : {globalRef_direct[0]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[0]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[0]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[0]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1499,27 +1499,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PRO</div>
+                    <div className="price-tag">Slot 2</div>
                     <div className="price-amount">{plan2_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[1]}
+                          No. of Directs : {globalRef_direct[1]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[1]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[1]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[1]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1541,27 +1541,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 3</div>
                     <div className="price-amount">{plan3_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[2]}
+                          No. of Directs : {globalRef_direct[2]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[2]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[2]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[2]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1583,27 +1583,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 4</div>
                     <div className="price-amount">{plan4_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[3]}
+                          No. of Directs : {globalRef_direct[3]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[3]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[3]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[3]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1625,27 +1625,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 5</div>
                     <div className="price-amount">{plan5_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[4]}
+                          No. of Directs : {globalRef_direct[4]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[4]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[4]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[4]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1668,27 +1668,27 @@ const Main = (props) => {
                   </div>
 
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">SLot 6</div>
                     <div className="price-amount">{plan6_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[5]}
+                          No. of Directs : {globalRef_direct[5]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[5]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[5]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[5]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1710,27 +1710,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 7</div>
                     <div className="price-amount">{plan7_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[6]}
+                          No. of Directs : {globalRef_direct[6]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[6]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[6]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[6]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1752,27 +1752,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 8</div>
                     <div className="price-amount">{plan8_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[7]}
+                          No. of Directs : {globalRef_direct[7]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[7]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[7]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[7]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1794,27 +1794,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 9</div>
                     <div className="price-amount">{plan9_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[8]}
+                          No. of Directs : {globalRef_direct[8]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[8]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[8]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[8]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
@@ -1836,27 +1836,27 @@ const Main = (props) => {
                     ) : null}
                   </div>
                   <div className="price-card flex flex-col">
-                    <div className="price-tag">PREMIUM</div>
+                    <div className="price-tag">Slot 10</div>
                     <div className="price-amount">{plan10_fee}$</div>
                     <div className="items-list flex flex-col">
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          No. of Directs {globalRef_direct[9]}
+                          No. of Directs : {globalRef_direct[9]}
                         </div>
                       </div>
                       <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
-                          Earning {Number(globalRef_earning[9]) / 10 ** 18}
+                          Earning : {Number(globalRef_earning[9]) / 10 ** 18}
                         </div>
                       </div>
-                      <div className="item flex items-center">
+                      {/* <div className="item flex items-center">
                         <div className="dot"></div>
                         <div className="lbl">
                           Total Team {globalRef_team[9]}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {!props.itsview ? (
                       <>
