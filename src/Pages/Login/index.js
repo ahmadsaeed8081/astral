@@ -151,7 +151,6 @@ useEffect( ()=>{
 
           if (Number(levelMatrix_fee) > Number(balance))
            {
-            await provider.disconnect();
 
               alert("You dont have enough busd");
               return;
@@ -194,7 +193,6 @@ useEffect( ()=>{
 
           }
           else{
-            await provider.disconnect();
 
             alert("This user is not registered")
           }
